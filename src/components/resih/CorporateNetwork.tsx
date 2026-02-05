@@ -27,7 +27,7 @@ const COMPANIES: Company[] = [
     {
         id: 'neft',
         name: 'NEFT',
-        logo: '/neft.svg',
+        logo: '/neft-trans.png',
         address: 'Maitama, Abuja',
         phone: '+234 800 444 5555',
         description: 'Energy & Power'
@@ -218,7 +218,7 @@ export const CorporateNetwork = () => {
             {COMPANIES.map((company, index) => (
                 <div
                     key={company.id}
-                    ref={(el) => (orbitRefs.current[index] = el)}
+                    ref={(el) => { orbitRefs.current[index] = el; }}
                     className="absolute top-0 left-0 will-change-transform"
                 >
                     <FlipCard company={company} />
