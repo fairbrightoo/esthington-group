@@ -23,7 +23,7 @@ export const Hero: React.FC<HeroProps> = ({ onJoinClick, onLearnMoreClick }) => 
                 />
             </div>
 
-            <div className="w-full max-w-[95%] xl:max-w-[1800px] mx-auto px-6 relative z-10 flex flex-col xl:flex-row items-center">
+            <div className="w-full max-w-[90%] xl:max-w-[1600px] mx-auto px-6 relative z-10 flex flex-col xl:flex-row items-center">
                 <motion.div
                     initial={{ opacity: 0, y: 30 }}
                     animate={{ opacity: 1, y: 0 }}

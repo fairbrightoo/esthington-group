@@ -22,7 +22,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onJoinClick }) => {
             className={`fixed top-0 w-full z-50 transition-all duration-300 ${scrolled ? 'bg-[#2A1B6E]/90 backdrop-blur-lg py-4 shadow-2xl' : 'bg-transparent py-6'
                 }`}
         >
-            <div className="w-full max-w-[95%] xl:max-w-[1800px] mx-auto px-6 flex justify-between items-center">
+            <div className="w-full max-w-[90%] xl:max-w-[1600px] mx-auto px-6 flex justify-between items-center">
                 {/* Logo */}
                 {/* Logo */}
                 <a href="/" className="flex items-center space-x-3 hover:opacity-90 transition-opacity">
