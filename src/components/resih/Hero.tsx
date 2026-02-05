@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { ArrowRight } from 'lucide-react';
 import { ACCENT_COLOR, TEXT_ACCENT } from './constants';
 import { CorporateNetwork } from './CorporateNetwork';
+import { MarketStats } from './MarketStats';
 
 interface HeroProps {
     onJoinClick: () => void;
@@ -57,6 +58,7 @@ export const Hero: React.FC<HeroProps> = ({ onJoinClick, onLearnMoreClick }) => 
                 {/* Hero Animation (Right Side) */}
                 <div className="flex w-full mt-12 xl:mt-0 xl:w-1/2 h-[400px] xl:h-[600px] relative items-center justify-center">
                     <CorporateNetwork />
+                    <MarketStats />
                 </div>
             </div>
         </section>
