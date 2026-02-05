@@ -1,0 +1,60 @@
+import React from 'react';
+import { motion } from 'framer-motion';
+import { ArrowRight } from 'lucide-react';
+import { ACCENT_COLOR, TEXT_ACCENT } from './constants';
+import { HeroAnimation } from './HeroAnimation';
+
+interface HeroProps {
+    onJoinClick: () => void;
+}
+
+export const Hero: React.FC<HeroProps> = ({ onJoinClick }) => {
+    return (
+        <section className="relative min-h-screen flex items-center pt-20 overflow-hidden text-white">
+            {/* Background Visual Overlay */}
+            <div className="absolute inset-0 z-0">
+                <div className="absolute inset-0 bg-gradient-to-r from-[#2A1B6E] via-[#2A1B6E]/80 to-transparent z-10" />
+                <img
+                    src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&q=80&w=2070"
+                    alt="Modern Architecture"
+                    className="w-full h-full object-cover opacity-40"
+                />
+            </div>
+
+            <div className="container mx-auto px-6 relative z-10 flex flex-col xl:flex-row items-center">
+                <motion.div
+                    initial={{ opacity: 0, y: 30 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.8 }}
+                    className="max-w-3xl xl:w-1/2"
+                >
+                    <h1 className="text-5xl md:text-7xl font-serif font-bold leading-tight mb-6">
+                        Invest Smart. <br />
+                        <span className={TEXT_ACCENT}>Buy Early.</span> <br />
+                        Build Wealth.
+                    </h1>
+                    <p className="text-xl md:text-2xl text-white/80 mb-10 leading-relaxed font-light">
+                        Are you an investor who understands that real estate rewards those who enter early? The Real Estate Smart Investors Hub is an exclusive community created to help smart investors make guided, timely, and profitable real estate investments.
+                    </p>
+                    <div className="flex flex-col sm:flex-row gap-4">
+                        <button
+                            onClick={onJoinClick}
+                            className={`${ACCENT_COLOR} hover:bg-[#d96a1a] px-10 py-5 rounded-full text-lg font-bold transition-all hover:scale-105 shadow-[0_10px_30px_rgba(244,121,32,0.3)] flex items-center justify-center gap-2 group text-white`}
+                        >
+                            Join the Hub Today
+                            <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                        </button>
+                        <button className="px-10 py-5 rounded-full text-lg font-bold border border-white/30 hover:bg-white/10 transition-all backdrop-blur-sm text-white">
+                            Learn More
+                        </button>
+                    </div>
+                </motion.div>
+
+                {/* Hero Animation (Right Side) */}
+                <div className="hidden xl:block xl:w-1/2 h-full relative">
+                    <HeroAnimation />
+                </div>
+            </div>
+        </section>
+    );
+};
