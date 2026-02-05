@@ -2,7 +2,7 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { ArrowRight } from 'lucide-react';
 import { ACCENT_COLOR, TEXT_ACCENT } from './constants';
-import { HeroAnimation } from './HeroAnimation';
+import { CorporateNetwork } from './CorporateNetwork';
 
 interface HeroProps {
     onJoinClick: () => void;
@@ -11,7 +11,7 @@ interface HeroProps {
 
 export const Hero: React.FC<HeroProps> = ({ onJoinClick, onLearnMoreClick }) => {
     return (
-        <section className="relative min-h-screen flex items-center pt-20 overflow-hidden text-white">
+        <section className="relative w-full min-h-screen flex items-center pt-20 overflow-hidden text-white">
             {/* Background Visual Overlay */}
             <div className="absolute inset-0 z-0">
                 <div className="absolute inset-0 bg-gradient-to-r from-[#2A1B6E] via-[#2A1B6E]/80 to-transparent z-10" />
@@ -22,7 +22,7 @@ export const Hero: React.FC<HeroProps> = ({ onJoinClick, onLearnMoreClick }) => 
                 />
             </div>
 
-            <div className="container mx-auto px-6 relative z-10 flex flex-col xl:flex-row items-center">
+            <div className="w-full max-w-[95%] xl:max-w-[1800px] mx-auto px-6 relative z-10 flex flex-col xl:flex-row items-center">
                 <motion.div
                     initial={{ opacity: 0, y: 30 }}
                     animate={{ opacity: 1, y: 0 }}
@@ -55,8 +55,8 @@ export const Hero: React.FC<HeroProps> = ({ onJoinClick, onLearnMoreClick }) => 
                 </motion.div>
 
                 {/* Hero Animation (Right Side) */}
-                <div className="hidden xl:block xl:w-1/2 h-full relative">
-                    <HeroAnimation />
+                <div className="flex w-full mt-12 xl:mt-0 xl:w-1/2 h-[400px] xl:h-[600px] relative items-center justify-center">
+                    <CorporateNetwork />
                 </div>
             </div>
         </section>

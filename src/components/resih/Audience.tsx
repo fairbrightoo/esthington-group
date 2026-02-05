@@ -33,25 +33,37 @@ export const Audience = () => {
                         </div>
                         <div className="lg:w-1/2">
                             <div className="grid grid-cols-2 gap-4">
-                                <img
+                                <motion.img
                                     src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&q=80&w=1000"
-                                    className="rounded-2xl h-48 w-full object-cover"
+                                    className="rounded-2xl h-48 w-full object-cover shadow-lg"
                                     alt="Luxury Home"
+                                    animate={{ y: [0, -8, 0] }}
+                                    transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+                                    whileHover={{ scale: 1.05, y: -12 }}
                                 />
-                                <img
+                                <motion.img
                                     src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&q=80&w=1000"
-                                    className="rounded-2xl h-64 w-full object-cover mt-8"
+                                    className="rounded-2xl h-64 w-full object-cover mt-8 shadow-lg"
                                     alt="Real Estate"
+                                    animate={{ y: [0, -12, 0] }}
+                                    transition={{ duration: 5, repeat: Infinity, ease: "easeInOut", delay: 1 }}
+                                    whileHover={{ scale: 1.05, y: -15 }}
                                 />
-                                <img
-                                    src="https://images.unsplash.com/photo-1600607687940-47a0f925901e?auto=format&fit=crop&q=80&w=1000"
-                                    className="rounded-2xl h-64 w-full object-cover -mt-16"
-                                    alt="Interior"
+                                <motion.img
+                                    src="https://images.unsplash.com/photo-1613545325278-f24b0cae1224?auto=format&fit=crop&q=80&w=1000"
+                                    className="rounded-2xl h-64 w-full object-cover -mt-16 shadow-lg"
+                                    alt="Luxury Interior"
+                                    animate={{ y: [0, -10, 0] }}
+                                    transition={{ duration: 4.5, repeat: Infinity, ease: "easeInOut", delay: 0.5 }}
+                                    whileHover={{ scale: 1.05, y: -15 }}
                                 />
-                                <img
+                                <motion.img
                                     src="https://images.unsplash.com/photo-1600047509807-ba8f99d2cdde?auto=format&fit=crop&q=80&w=1000"
-                                    className="rounded-2xl h-48 w-full object-cover mt-0"
+                                    className="rounded-2xl h-48 w-full object-cover mt-0 shadow-lg"
                                     alt="Architecture"
+                                    animate={{ y: [0, -6, 0] }}
+                                    transition={{ duration: 3.5, repeat: Infinity, ease: "easeInOut", delay: 1.5 }}
+                                    whileHover={{ scale: 1.05, y: -10 }}
                                 />
                             </div>
                         </div>

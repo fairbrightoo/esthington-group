@@ -22,16 +22,17 @@ export const Navbar: React.FC<NavbarProps> = ({ onJoinClick }) => {
             className={`fixed top-0 w-full z-50 transition-all duration-300 ${scrolled ? 'bg-[#2A1B6E]/90 backdrop-blur-lg py-4 shadow-2xl' : 'bg-transparent py-6'
                 }`}
         >
-            <div className="container mx-auto px-6 flex justify-between items-center">
+            <div className="w-full max-w-[95%] xl:max-w-[1800px] mx-auto px-6 flex justify-between items-center">
                 {/* Logo */}
-                <div className="flex items-center space-x-3">
+                {/* Logo */}
+                <a href="/" className="flex items-center space-x-3 hover:opacity-90 transition-opacity">
                     <div className="h-14 w-14 md:h-20 md:w-20 rounded-full overflow-hidden bg-white flex items-center justify-center">
                         <img src="/esthington-logo-svg.svg" alt="Esthington Logo" className="w-full h-full object-cover" />
                     </div>
                     <span className="text-xl md:text-2xl font-bold tracking-tight font-serif italic text-white">
                         Real Estate Smart Investors Hub
                     </span>
-                </div>
+                </a>
 
                 {/* Desktop Nav */}
                 <div className="hidden md:flex space-x-8 items-center">
