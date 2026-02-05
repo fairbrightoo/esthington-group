@@ -6,9 +6,10 @@ import { HeroAnimation } from './HeroAnimation';
 
 interface HeroProps {
     onJoinClick: () => void;
+    onLearnMoreClick: () => void;
 }
 
-export const Hero: React.FC<HeroProps> = ({ onJoinClick }) => {
+export const Hero: React.FC<HeroProps> = ({ onJoinClick, onLearnMoreClick }) => {
     return (
         <section className="relative min-h-screen flex items-center pt-20 overflow-hidden text-white">
             {/* Background Visual Overlay */}
@@ -44,7 +45,10 @@ export const Hero: React.FC<HeroProps> = ({ onJoinClick }) => {
                             Join the Hub Today
                             <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                         </button>
-                        <button className="px-10 py-5 rounded-full text-lg font-bold border border-white/30 hover:bg-white/10 transition-all backdrop-blur-sm text-white">
+                        <button
+                            onClick={onLearnMoreClick}
+                            className="px-10 py-5 rounded-full text-lg font-bold border border-white/30 hover:bg-white/10 transition-all backdrop-blur-sm text-white"
+                        >
                             Learn More
                         </button>
                     </div>
