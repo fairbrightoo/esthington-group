@@ -1,6 +1,6 @@
 import React, { useState, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, CheckCircle2 } from 'lucide-react';
+import { X, CheckCircle2, ChevronRight } from 'lucide-react';
 import { ACCENT_COLOR } from './constants';
 import emailjs from '@emailjs/browser';
 
@@ -9,14 +9,51 @@ interface JoinModalProps {
     onClose: () => void;
 }
 
+// Configuration for our new questions
+const QUALIFYING_QUESTIONS = [
+    {
+        id: 'budget',
+        label: 'Investment Budget',
+        options: ['₦2M - ₦5M', '₦5M - ₦10M', '₦10M - ₦20M', '₦20M+']
+    },
+    {
+        id: 'goal',
+        label: 'Primary Goal',
+        options: ['Investment Returns', 'Build to Live', 'Land Banking']
+    },
+    {
+        id: 'timeline',
+        label: 'Timeline',
+        options: ['Immediately', 'Within 3 Months', 'Just Browsing']
+    }
+];
+
 export const JoinModal: React.FC<JoinModalProps> = ({ isOpen, onClose }) => {
     const formRef = useRef<HTMLFormElement>(null);
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [isSubmitted, setIsSubmitted] = useState(false);
     const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
 
+    // State to track selected chips (visual only, data is passed via hidden inputs)
+    const [selections, setSelections] = useState({
+        budget: '',
+        goal: '',
+        timeline: ''
+    });
+
+    const handleSelect = (field: string, value: string) => {
+        setSelections(prev => ({ ...prev, [field]: value }));
+    };
+
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
+
+        // Basic validation for the new fields
+        if (!selections.budget || !selections.goal || !selections.timeline) {
+            alert("Please select an option for all fields.");
+            return;
+        }
+
         setIsSubmitting(true);
         setSubmitStatus('idle');
 
@@ -27,17 +64,12 @@ export const JoinModal: React.FC<JoinModalProps> = ({ isOpen, onClose }) => {
             fetch(import.meta.env.VITE_GOOGLE_SHEET_WEB_APP_URL, {
                 method: "POST",
                 body: formData
-            }).then(res => res.json()).then(data => {
-                console.log("Google Sheet Response:", data);
-            }).catch(err => {
-                console.error("Google Sheet Error:", err);
-            });
+            }).catch(err => console.error("Google Sheet Error:", err));
         };
 
         if (!formRef.current) return;
 
         // 2. Send Admin Notification (EmailJS)
-        // Auto-reply is now triggered automatically by EmailJS when this template is sent
         emailjs.sendForm(
             import.meta.env.VITE_EMAILJS_SERVICE_ID,
             import.meta.env.VITE_EMAILJS_TEMPLATE_ID,
@@ -45,16 +77,15 @@ export const JoinModal: React.FC<JoinModalProps> = ({ isOpen, onClose }) => {
             import.meta.env.VITE_EMAILJS_PUBLIC_KEY
         )
             .then(() => {
-                console.log("Admin email sent successfully!");
-                recordToSheet(); // Log to sheet on success
+                recordToSheet();
                 setIsSubmitting(false);
                 setIsSubmitted(true);
                 setSubmitStatus('success');
 
-                // Reset and close after delay
                 setTimeout(() => {
                     setIsSubmitted(false);
                     setSubmitStatus('idle');
+                    setSelections({ budget: '', goal: '', timeline: '' }); // Reset selections
                     onClose();
                     if (formRef.current) formRef.current.reset();
                 }, 3000);
@@ -70,37 +101,35 @@ export const JoinModal: React.FC<JoinModalProps> = ({ isOpen, onClose }) => {
         <AnimatePresence>
             {isOpen && (
                 <>
-                    {/* Backdrop */}
                     <motion.div
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        exit={{ opacity: 0 }}
+                        initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
                         onClick={onClose}
                         className="fixed inset-0 bg-black/80 backdrop-blur-sm z-[60]"
                     />
 
-                    {/* Modal Container */}
                     <div className="fixed inset-0 flex items-center justify-center z-[70] p-4 pointer-events-none">
                         <motion.div
                             initial={{ opacity: 0, scale: 0.9, y: 20 }}
                             animate={{ opacity: 1, scale: 1, y: 0 }}
                             exit={{ opacity: 0, scale: 0.9, y: 20 }}
-                            className="bg-[#2A1B6E] border border-white/20 w-full max-w-md rounded-3xl shadow-2xl overflow-hidden pointer-events-auto"
+                            className="bg-[#2A1B6E] border border-white/20 w-full max-w-lg rounded-3xl shadow-2xl overflow-hidden pointer-events-auto max-h-[90vh] flex flex-col"
                         >
-                            <div className="p-6 md:p-8 relative">
+                            <div className="p-6 md:p-8 relative overflow-y-auto custom-scrollbar">
                                 <button
                                     onClick={onClose}
-                                    className="absolute top-4 right-4 text-white/50 hover:text-white transition-colors"
+                                    className="absolute top-4 right-4 text-white/50 hover:text-white transition-colors z-10"
                                 >
                                     <X className="w-6 h-6" />
                                 </button>
 
                                 {!isSubmitted ? (
                                     <>
-                                        <h2 className="text-3xl font-serif font-bold text-white mb-2">Join the Hub</h2>
-                                        <p className="text-white/60 mb-8">
-                                            Get exclusive access to premium real estate opportunities.
-                                        </p>
+                                        <div className="mb-6">
+                                            <h2 className="text-3xl font-serif font-bold text-white mb-2">Join the Hub</h2>
+                                            <p className="text-white/60 text-sm">
+                                                Tell us a bit about your investment goals so we can serve you better.
+                                            </p>
+                                        </div>
 
                                         {submitStatus === 'error' && (
                                             <div className="mb-4 p-3 bg-red-500/20 border border-red-500/50 rounded-lg text-red-200 text-sm text-center">
@@ -108,37 +137,56 @@ export const JoinModal: React.FC<JoinModalProps> = ({ isOpen, onClose }) => {
                                             </div>
                                         )}
 
-                                        <form ref={formRef} onSubmit={handleSubmit} className="space-y-4">
-                                            <div>
-                                                <label className="block text-sm font-medium text-white/80 mb-1">Full Name</label>
-                                                <input
-                                                    type="text"
-                                                    name="name"
-                                                    required
-                                                    className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white focus:outline-none focus:border-[#F47920] transition-colors"
-                                                    placeholder="John Doe"
-                                                />
+                                        <form ref={formRef} onSubmit={handleSubmit} className="space-y-6">
+                                            {/* Standard Inputs */}
+                                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                                <div className="space-y-1">
+                                                    <label className="text-xs font-bold uppercase tracking-wider text-white/40">Full Name</label>
+                                                    <input type="text" name="name" required placeholder="John Doe"
+                                                        className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white focus:outline-none focus:border-[#F47920] transition-colors" />
+                                                </div>
+                                                <div className="space-y-1">
+                                                    <label className="text-xs font-bold uppercase tracking-wider text-white/40">Phone</label>
+                                                    <input type="tel" name="phone" required placeholder="+234..."
+                                                        className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white focus:outline-none focus:border-[#F47920] transition-colors" />
+                                                </div>
                                             </div>
-                                            <div>
-                                                <label className="block text-sm font-medium text-white/80 mb-1">Email Address</label>
-                                                <input
-                                                    type="email"
-                                                    name="email"
-                                                    required
-                                                    className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white focus:outline-none focus:border-[#F47920] transition-colors"
-                                                    placeholder="john@example.com"
-                                                />
+
+                                            <div className="space-y-1">
+                                                <label className="text-xs font-bold uppercase tracking-wider text-white/40">Email Address</label>
+                                                <input type="email" name="email" required placeholder="john@example.com"
+                                                    className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white focus:outline-none focus:border-[#F47920] transition-colors" />
                                             </div>
-                                            <div>
-                                                <label className="block text-sm font-medium text-white/80 mb-1">Phone Number</label>
-                                                <input
-                                                    type="tel"
-                                                    name="phone"
-                                                    required
-                                                    className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white focus:outline-none focus:border-[#F47920] transition-colors"
-                                                    placeholder="+234..."
-                                                />
-                                            </div>
+
+                                            {/* Hidden inputs to store the chip values for FormData */}
+                                            <input type="hidden" name="budget" value={selections.budget} />
+                                            <input type="hidden" name="goal" value={selections.goal} />
+                                            <input type="hidden" name="timeline" value={selections.timeline} />
+
+                                            {/* Sleek Selection Chips */}
+                                            {QUALIFYING_QUESTIONS.map((q) => (
+                                                <div key={q.id} className="space-y-2">
+                                                    <label className="text-xs font-bold uppercase tracking-wider text-white/40">{q.label}</label>
+                                                    <div className="flex flex-wrap gap-2">
+                                                        {q.options.map((opt) => (
+                                                            <button
+                                                                key={opt}
+                                                                type="button"
+                                                                onClick={() => handleSelect(q.id, opt)}
+                                                                className={`px-4 py-2 rounded-lg text-sm font-medium transition-all border ${
+                                                                    // @ts-ignore
+                                                                    selections[q.id] === opt
+                                                                        ? 'bg-[#F47920] border-[#F47920] text-white shadow-lg scale-105'
+                                                                        : 'bg-white/5 border-white/10 text-white/60 hover:bg-white/10 hover:text-white'
+                                                                    }`}
+                                                            >
+                                                                {opt}
+                                                            </button>
+                                                        ))}
+                                                    </div>
+                                                </div>
+                                            ))}
+
                                             <button
                                                 type="submit"
                                                 disabled={isSubmitting}
@@ -147,20 +195,24 @@ export const JoinModal: React.FC<JoinModalProps> = ({ isOpen, onClose }) => {
                                                 {isSubmitting ? (
                                                     <span className="flex items-center gap-2">
                                                         <span className="w-4 h-4 border-2 border-white/20 border-t-white rounded-full animate-spin" />
-                                                        Sending...
+                                                        Processing...
                                                     </span>
-                                                ) : 'Secure My Access'}
+                                                ) : (
+                                                    <span className="flex items-center gap-2">
+                                                        Secure My Access <ChevronRight className="w-5 h-5" />
+                                                    </span>
+                                                )}
                                             </button>
                                         </form>
                                     </>
                                 ) : (
-                                    <div className="flex flex-col items-center justify-center py-12 text-center">
-                                        <div className="w-20 h-20 bg-green-500/20 rounded-full flex items-center justify-center mb-6">
+                                    <div className="flex flex-col items-center justify-center py-12 text-center h-full">
+                                        <div className="w-24 h-24 bg-green-500/20 rounded-full flex items-center justify-center mb-6 animate-bounce">
                                             <CheckCircle2 className="w-12 h-12 text-green-500" />
                                         </div>
-                                        <h3 className="text-2xl font-bold text-white mb-2">You're on the list!</h3>
-                                        <p className="text-white/60">
-                                            We've sent a confirmation email to your inbox.
+                                        <h3 className="text-3xl font-bold text-white mb-2">You're In!</h3>
+                                        <p className="text-white/60 max-w-xs mx-auto">
+                                            Your application has been received. One of our investment advisors will contact you shortly.
                                         </p>
                                     </div>
                                 )}
