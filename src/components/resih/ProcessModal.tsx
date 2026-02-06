@@ -205,36 +205,43 @@ export const ProcessModal: React.FC<ProcessModalProps> = ({ isOpen, onClose, onS
                             initial={{ opacity: 0, scale: 0.95, y: 30 }}
                             animate={{ opacity: 1, scale: 1, y: 0 }}
                             exit={{ opacity: 0, scale: 0.95, y: 30 }}
-                            className="bg-[#1a1145] border border-white/10 w-full max-w-6xl h-[85vh] rounded-3xl shadow-2xl overflow-hidden pointer-events-auto flex"
+                            className="bg-[#1a1145] border border-white/10 w-full max-w-6xl h-[90vh] md:h-[85vh] rounded-3xl shadow-2xl overflow-hidden pointer-events-auto flex flex-col md:flex-row relative"
                         >
-                            {/* --- Left Sidebar Navigation --- */}
-                            <div className="w-20 md:w-64 bg-[#0f0a2a] border-r border-white/5 p-6 flex flex-col">
+                            {/* --- Left Sidebar Navigation (Mobile Bottom Bar / Desktop Sidebar) --- */}
+                            <div className="order-2 md:order-1 w-full md:w-64 bg-[#0f0a2a] md:border-r border-t md:border-t-0 border-white/5 p-4 md:p-6 flex flex-row md:flex-col justify-between md:justify-start gap-2 shrink-0 z-20">
                                 <div className="mb-12 hidden md:block">
                                     <h3 className="text-white font-bold text-xl tracking-tight">Esthington <span className={TEXT_ACCENT}>RESIH</span></h3>
                                 </div>
 
-                                <nav className="space-y-2 flex-1">
+                                <nav className="flex flex-row md:flex-col gap-2 w-full justify-around md:justify-start">
                                     {SECTIONS.map((s) => (
                                         <button
                                             key={s.id}
                                             onClick={() => setActiveSection(s.id)}
-                                            className={`w-full flex items-center gap-4 px-4 py-3 rounded-xl transition-all ${activeSection === s.id ? 'bg-[#F47920] text-white shadow-lg' : 'text-white/40 hover:bg-white/5 hover:text-white'
+                                            className={`flex flex-col md:flex-row items-center justify-center md:justify-start gap-1 md:gap-4 px-2 md:px-4 py-2 md:py-3 rounded-xl transition-all ${activeSection === s.id ? 'bg-[#F47920] text-white shadow-lg' : 'text-white/40 hover:bg-white/5 hover:text-white'
                                                 }`}
                                         >
                                             {s.icon}
-                                            <span className="font-bold hidden md:block">{s.label}</span>
+                                            <span className="font-bold text-[10px] md:text-base">{s.label}</span>
                                         </button>
                                     ))}
                                 </nav>
 
-                                <button onClick={onClose} className="flex items-center gap-4 px-4 py-3 text-white/30 hover:text-red-400 transition-colors mt-auto">
+                                <button onClick={onClose} className="hidden md:flex items-center gap-4 px-4 py-3 text-white/30 hover:text-red-400 transition-colors mt-auto">
                                     <X className="w-5 h-5" />
                                     <span className="font-bold hidden md:block">Close</span>
                                 </button>
                             </div>
 
                             {/* --- Main Content Area --- */}
-                            <div className="flex-1 overflow-y-auto bg-gradient-to-br from-[#1a1145] to-[#0f0a2a] relative p-6 md:p-12">
+                            <div className="order-1 md:order-2 flex-1 overflow-y-auto bg-gradient-to-br from-[#1a1145] to-[#0f0a2a] relative p-6 md:p-12 pb-20 md:pb-12">
+                                {/* Mobile Header with Close Button */}
+                                <div className="md:hidden flex justify-between items-center mb-6">
+                                    <h3 className="text-white font-bold text-xl tracking-tight">Esthington <span className={TEXT_ACCENT}>RESIH</span></h3>
+                                    <button onClick={onClose} className="p-2 bg-white/10 rounded-full text-white/70 hover:bg-white/20">
+                                        <X className="w-5 h-5" />
+                                    </button>
+                                </div>
                                 <AnimatePresence mode="wait">
                                     {/* SECTION: THE PLAN */}
                                     {activeSection === 'plan' && (
@@ -270,7 +277,7 @@ export const ProcessModal: React.FC<ProcessModalProps> = ({ isOpen, onClose, onS
                                             initial={{ opacity: 0, x: 20 }}
                                             animate={{ opacity: 1, x: 0 }}
                                             exit={{ opacity: 0, x: -20 }}
-                                            className="h-full flex flex-col"
+                                            className="min-h-full flex flex-col"
                                         >
                                             {/* HEADER: Trust You Can Touch */}
                                             <div className="mb-6 shrink-0">
@@ -286,11 +293,11 @@ export const ProcessModal: React.FC<ProcessModalProps> = ({ isOpen, onClose, onS
                                                 </p>
                                             </div>
 
-                                            <div className="flex-1 min-h-0 flex flex-col md:flex-row gap-6 md:gap-8">
+                                            <div className="flex-1 flex flex-col md:flex-row gap-6 md:gap-8">
                                                 {/* LEFT COLUMN: Tabs + CTA */}
-                                                <div className="w-full md:w-64 flex flex-col gap-4">
-                                                    {/* Scrollable Tabs List */}
-                                                    <div className="flex-1 overflow-y-auto pr-2 custom-scrollbar space-y-2">
+                                                <div className="w-full md:w-64 flex flex-col gap-4 shrink-0">
+                                                    {/* Scrollable Tabs List - height limited on mobile to prevent taking full screen */}
+                                                    <div className="max-h-48 md:max-h-none md:flex-1 overflow-y-auto pr-2 custom-scrollbar space-y-2">
                                                         {ESTATES.map((estate) => (
                                                             <button
                                                                 key={estate.id}
@@ -324,8 +331,8 @@ export const ProcessModal: React.FC<ProcessModalProps> = ({ isOpen, onClose, onS
                                                         ))}
                                                     </div>
 
-                                                    {/* NEW LOCATION: Start Journey CTA */}
-                                                    <div className="pt-2">
+                                                    {/* NEW LOCATION: Start Journey CTA - Desktop Only (repositioned for mobile below) */}
+                                                    <div className="pt-2 hidden md:block">
                                                         <button
                                                             onClick={() => { onClose(); onStartJourney(); }}
                                                             className={`${ACCENT_COLOR} hover:bg-[#d96a1a] text-white px-6 py-4 rounded-xl font-bold transition-all active:scale-95 shadow-lg flex items-center justify-center gap-2 group w-full`}
@@ -337,7 +344,7 @@ export const ProcessModal: React.FC<ProcessModalProps> = ({ isOpen, onClose, onS
                                                 </div>
 
                                                 {/* RIGHT COLUMN: Carousel Slider */}
-                                                <div className="flex-1 bg-[#130d35] rounded-3xl p-1 border border-white/10 relative overflow-hidden group">
+                                                <div className="w-full h-64 md:h-auto md:flex-1 bg-[#130d35] rounded-3xl p-1 border border-white/10 relative overflow-hidden group shrink-0">
                                                     <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20 pointer-events-none"></div>
 
                                                     <div className="h-full w-full p-2 md:p-4 flex flex-col relative z-10">
@@ -366,6 +373,17 @@ export const ProcessModal: React.FC<ProcessModalProps> = ({ isOpen, onClose, onS
                                                             <EstateCarousel activeEstate={activeEstate} />
                                                         )}
                                                     </div>
+                                                </div>
+
+                                                {/* Mobile Only CTA */}
+                                                <div className="pt-2 md:hidden">
+                                                    <button
+                                                        onClick={() => { onClose(); onStartJourney(); }}
+                                                        className={`${ACCENT_COLOR} hover:bg-[#d96a1a] text-white px-6 py-4 rounded-xl font-bold transition-all active:scale-95 shadow-lg flex items-center justify-center gap-2 group w-full`}
+                                                    >
+                                                        Start Your Journey
+                                                        <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                                                    </button>
                                                 </div>
                                             </div>
                                         </motion.div>
