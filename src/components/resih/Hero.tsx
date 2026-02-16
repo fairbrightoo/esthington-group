@@ -43,7 +43,7 @@ export const Hero: React.FC<HeroProps> = ({ onJoinClick, onLearnMoreClick }) => 
                             onClick={onJoinClick}
                             className={`${ACCENT_COLOR} hover:bg-[#d96a1a] px-10 py-5 rounded-full text-lg font-bold transition-all hover:scale-105 shadow-[0_10px_30px_rgba(244,121,32,0.3)] flex items-center justify-center gap-2 group text-white`}
                         >
-                            Apply Now – Start Your Journey
+                            Start Your Journey
                             <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                         </button>
                         <button
