@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
-    X, ArrowRight, ClipboardCheck, Bell, Lock, TrendingUp,
-    Compass, Layout, Building2, ChevronRight, Info
+    X, ArrowRight, Building2, ChevronRight, Layout, Compass, HelpCircle, MessageCircle, CheckCircle2
 } from 'lucide-react';
 import { ACCENT_COLOR, TEXT_ACCENT } from './constants';
 
@@ -14,9 +13,10 @@ interface ProcessModalProps {
 
 // --- Data Structures ---
 const SECTIONS = [
-    { id: 'plan', label: 'The Plan', icon: <Compass className="w-5 h-5" /> },
-    { id: 'projects', label: 'The Projects', icon: <Building2 className="w-5 h-5" /> },
-    { id: 'process', label: 'The Process', icon: <Layout className="w-5 h-5" /> },
+    { id: 'hub', label: 'The Hub', icon: <Compass className="w-5 h-5" /> },
+    { id: 'steps', label: 'How It Works', icon: <Layout className="w-5 h-5" /> },
+    { id: 'projects', label: 'Our Projects', icon: <Building2 className="w-5 h-5" /> },
+    { id: 'faq', label: 'FAQs', icon: <HelpCircle className="w-5 h-5" /> },
 ];
 
 const ESTATES = [
@@ -77,12 +77,7 @@ const ESTATES = [
     }
 ];
 
-const PROCESS_STEPS = [
-    { icon: <ClipboardCheck />, title: "Application", desc: "Join our vetted community of smart investors." },
-    { icon: <Bell />, title: "Notification", desc: "Get exclusive alerts on new estates first." },
-    { icon: <Lock />, title: "Allocation", desc: "Lock in prime units at entry-level prices." },
-    { icon: <TrendingUp />, title: "Growth", desc: "Watch your portfolio appreciate rapidly." }
-];
+
 
 const EstateCarousel = ({ activeEstate }: { activeEstate: typeof ESTATES[0] }) => {
     const [index, setIndex] = useState(0);
@@ -177,7 +172,7 @@ const EstateCarousel = ({ activeEstate }: { activeEstate: typeof ESTATES[0] }) =
 };
 
 export const ProcessModal: React.FC<ProcessModalProps> = ({ isOpen, onClose, onStartJourney }) => {
-    const [activeSection, setActiveSection] = useState('plan');
+    const [activeSection, setActiveSection] = useState('hub');
     const [activeEstate, setActiveEstate] = useState(ESTATES[0]);
 
     const CTA_BUTTON = (
@@ -244,29 +239,158 @@ export const ProcessModal: React.FC<ProcessModalProps> = ({ isOpen, onClose, onS
                                 </div>
                                 <AnimatePresence mode="wait">
                                     {/* SECTION: THE PLAN */}
-                                    {activeSection === 'plan' && (
+                                    {/* SECTION: THE HUB (Formerly The Plan) */}
+                                    {activeSection === 'hub' && (
                                         <motion.div
-                                            key="plan" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }}
-                                            className="max-w-3xl"
+                                            key="hub"
+                                            initial={{ opacity: 0, x: 20 }}
+                                            animate={{ opacity: 1, x: 0 }}
+                                            exit={{ opacity: 0, x: -20 }}
+                                            className="space-y-8"
                                         >
-                                            <span className="text-[#F47920] font-bold tracking-widest uppercase text-xs">Strategy</span>
-                                            <h2 className="text-4xl md:text-5xl font-serif font-bold text-white mt-2 mb-6">The <span className={TEXT_ACCENT}>Plan</span></h2>
-                                            <p className="text-white/70 text-lg leading-relaxed mb-8">
-                                                We don’t just sell land. We educate, guide, and position investors to enter the right estates
-                                                <span className="text-white font-semibold"> before prices rise.</span>
-                                            </p>
-                                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                            <div>
+                                                <span className="text-[#F47920] font-bold tracking-widest uppercase text-xs">
+                                                    Overview
+                                                </span>
+                                                <h2 className="text-3xl md:text-4xl font-serif font-bold text-white mt-2 mb-4">
+                                                    What is the <span className={TEXT_ACCENT}>Hub?</span>
+                                                </h2>
+                                                <p className="text-white/60 text-lg leading-relaxed max-w-3xl">
+                                                    The Real Estate Smart Investors Hub is a private ecosystem designed for individuals who want to build wealth through real estate without the usual hassle, uncertainty, or noise.
+                                                </p>
+                                            </div>
+
+                                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                                 {[
-                                                    { t: "Exclusive Access", d: "First-hand entry to carefully selected estates." },
-                                                    { t: "Expert Guidance", d: "Professional insight on high-yield locations." }
+                                                    { title: "Private Investor Network", desc: "Join a community of like-minded professionals focusing on wealth creation." },
+                                                    { title: "Early Access to Estates", desc: "Get in before the general public. Secure the best plots at the lowest prices." },
+                                                    { title: "Structured Information", desc: "No more guesswork. We provide clear, data-backed analysis for every project." },
+                                                    { title: "No Pressure Selling", desc: "We are advisors, not aggressive salespeople. You invest when it makes sense for you." }
                                                 ].map((item, i) => (
-                                                    <div key={i} className="p-6 rounded-2xl bg-white/5 border border-white/10 hover:border-[#F47920]/50 transition-colors">
-                                                        <h4 className="text-white font-bold mb-2">{item.t}</h4>
-                                                        <p className="text-white/50 text-sm">{item.d}</p>
+                                                    <div key={i} className="bg-white/5 p-6 rounded-2xl border border-white/5 hover:bg-white/10 transition-colors">
+                                                        <div className="w-10 h-10 rounded-full bg-[#F47920]/20 flex items-center justify-center mb-4 text-[#F47920]">
+                                                            <CheckCircle2 className="w-6 h-6" />
+                                                        </div>
+                                                        <h3 className="text-xl font-bold text-white mb-2">{item.title}</h3>
+                                                        <p className="text-white/60 text-sm leading-relaxed">{item.desc}</p>
                                                     </div>
                                                 ))}
                                             </div>
-                                            {CTA_BUTTON}
+
+                                            <div className="pt-4">
+                                                <button
+                                                    onClick={() => { onClose(); onStartJourney(); }}
+                                                    className={`${ACCENT_COLOR} hover:bg-[#d96a1a] text-white px-8 py-4 rounded-xl font-bold transition-all active:scale-95 shadow-lg flex items-center gap-2 group`}
+                                                >
+                                                    Apply to Join
+                                                    <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                                                </button>
+                                            </div>
+                                        </motion.div>
+                                    )}
+
+                                    {/* SECTION: HOW IT WORKS (Formerly The Process) */}
+                                    {activeSection === 'steps' && (
+                                        <motion.div
+                                            key="steps"
+                                            initial={{ opacity: 0, x: 20 }}
+                                            animate={{ opacity: 1, x: 0 }}
+                                            exit={{ opacity: 0, x: -20 }}
+                                            className="space-y-10"
+                                        >
+                                            <div>
+                                                <span className="text-[#F47920] font-bold tracking-widest uppercase text-xs">
+                                                    Simple Steps
+                                                </span>
+                                                <h2 className="text-3xl md:text-4xl font-serif font-bold text-white mt-2 mb-4">
+                                                    How It <span className={TEXT_ACCENT}>Works</span>
+                                                </h2>
+                                            </div>
+
+                                            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                                                {[
+                                                    { step: "01", title: "Join the Hub", desc: "Apply and get verified to access the circle." },
+                                                    { step: "02", title: "Get Early Alerts", desc: "Receive pre-sale pricing & priority offers before the public." },
+                                                    { step: "03", title: "Invest & Grow", desc: "Secure your land, get guided support, and watch your wealth compound." }
+                                                ].map((item, i) => (
+                                                    <div key={i} className="relative p-8 rounded-3xl bg-white/5 border border-white/10 overflow-hidden group hover:bg-white/10 transition-colors">
+                                                        <div className="absolute top-0 right-0 p-4 opacity-10 text-6xl font-black font-serif text-white group-hover:opacity-20 transition-opacity">
+                                                            {item.step}
+                                                        </div>
+                                                        <div className="w-12 h-12 rounded-full bg-[#F47920] flex items-center justify-center text-white font-bold text-xl mb-6 shadow-lg">
+                                                            {item.step}
+                                                        </div>
+                                                        <h3 className="text-2xl font-bold text-white mb-3">{item.title}</h3>
+                                                        <p className="text-white/60 leading-relaxed">
+                                                            {item.desc}
+                                                        </p>
+                                                    </div>
+                                                ))}
+                                            </div>
+                                        </motion.div>
+                                    )}
+
+                                    {/* SECTION: FAQS */}
+                                    {activeSection === 'faq' && (
+                                        <motion.div
+                                            key="faq"
+                                            initial={{ opacity: 0, x: 20 }}
+                                            animate={{ opacity: 1, x: 0 }}
+                                            exit={{ opacity: 0, x: -20 }}
+                                            className="space-y-8"
+                                        >
+                                            <div>
+                                                <span className="text-[#F47920] font-bold tracking-widest uppercase text-xs">
+                                                    Common Questions
+                                                </span>
+                                                <h2 className="text-3xl md:text-4xl font-serif font-bold text-white mt-2 mb-4">
+                                                    Frequently <span className={TEXT_ACCENT}>Asked</span>
+                                                </h2>
+                                            </div>
+
+                                            <div className="space-y-4">
+                                                {[
+                                                    { q: "Is this free to join?", a: "Yes, joining the Hub is currently free for qualified investors." },
+                                                    { q: "Is there any obligation to invest?", a: "None at all. You invest only when you see an opportunity that fits your goals." },
+                                                    { q: "How early do members get information?", a: "Members typically get access 2-4 weeks before the general public, ensuring the best entry price." },
+                                                    { q: "Are the estates verified?", a: "Absolutely. Every project undergoes rigorous legal due diligence before it is presented to the Hub." },
+                                                    { q: "Can diaspora investors participate?", a: "Yes. A significant portion of our members are investing from the diaspora. We provide full digital documentation and virtual inspections." }
+                                                ].map((faq, i) => (
+                                                    <details key={i} className="group bg-white/5 rounded-xl border border-white/5 open:bg-white/10 transition-colors">
+                                                        <summary className="flex items-center justify-between p-6 cursor-pointer list-none">
+                                                            <h4 className="text-lg font-bold text-white pr-4">{faq.q}</h4>
+                                                            <span className="text-white/50 group-open:rotate-180 transition-transform">
+                                                                <ChevronRight className="w-5 h-5" />
+                                                            </span>
+                                                        </summary>
+                                                        <div className="px-6 pb-6 pt-0 text-white/70 leading-relaxed border-t border-white/5 mt-2">
+                                                            <div className="pt-4">{faq.a}</div>
+                                                        </div>
+                                                    </details>
+                                                ))}
+                                            </div>
+
+                                            {/* MINI FORM: NOTIFY ME */}
+                                            <div className="mt-12 p-8 rounded-3xl bg-[#F47920]/10 border border-[#F47920]/30 text-center">
+                                                <h3 className="text-xl font-bold text-white mb-2">Not Ready to Apply Yet?</h3>
+                                                <p className="text-white/60 text-sm mb-6">Get notified when new opportunities come up.</p>
+
+                                                <form className="max-w-md mx-auto flex flex-col gap-4" onSubmit={(e) => { e.preventDefault(); alert("You have been added to the notification list."); }}>
+                                                    <input
+                                                        type="text"
+                                                        placeholder="Your Name"
+                                                        className="w-full px-4 py-3 rounded-xl bg-black/20 border border-white/10 text-white placeholder-white/30 focus:outline-none focus:border-[#F47920]"
+                                                    />
+                                                    <input
+                                                        type="tel"
+                                                        placeholder="WhatsApp Number"
+                                                        className="w-full px-4 py-3 rounded-xl bg-black/20 border border-white/10 text-white placeholder-white/30 focus:outline-none focus:border-[#F47920]"
+                                                    />
+                                                    <button type="submit" className="bg-[#F47920] hover:bg-[#d96a1a] text-white px-6 py-3 rounded-xl font-bold transition-colors">
+                                                        Get Updates
+                                                    </button>
+                                                </form>
+                                            </div>
                                         </motion.div>
                                     )}
 
@@ -389,28 +513,7 @@ export const ProcessModal: React.FC<ProcessModalProps> = ({ isOpen, onClose, onS
                                         </motion.div>
                                     )}
 
-                                    {/* SECTION: THE PROCESS */}
-                                    {activeSection === 'process' && (
-                                        <motion.div
-                                            key="process" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }}
-                                        >
-                                            <h2 className="text-4xl font-serif font-bold text-white mb-8">The <span className={TEXT_ACCENT}>Process</span></h2>
-                                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                                                {PROCESS_STEPS.map((step, i) => (
-                                                    <div key={i} className="flex gap-4 p-4 rounded-2xl hover:bg-white/5 transition-colors">
-                                                        <div className="w-12 h-12 shrink-0 rounded-xl bg-[#F47920]/10 text-[#F47920] flex items-center justify-center">
-                                                            {React.cloneElement(step.icon as React.ReactElement<{ className?: string }>, { className: "w-6 h-6" })}
-                                                        </div>
-                                                        <div>
-                                                            <h4 className="text-white font-bold">{step.title}</h4>
-                                                            <p className="text-white/50 text-sm">{step.desc}</p>
-                                                        </div>
-                                                    </div>
-                                                ))}
-                                            </div>
-                                            {CTA_BUTTON}
-                                        </motion.div>
-                                    )}
+
                                 </AnimatePresence>
                             </div>
                         </motion.div>

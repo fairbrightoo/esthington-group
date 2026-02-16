@@ -32,12 +32,20 @@ export const About = () => {
                     </div>
                     <div className="lg:w-1/2">
                         <h2 className="text-4xl md:text-5xl font-serif font-bold mb-8">What This Hub Is About</h2>
-                        <p className="text-lg md:text-xl text-white/70 leading-relaxed mb-8">
-                            We don’t just sell land. We educate, guide, and position investors to enter the right estates at the right time—before prices rise.
-                        </p>
-                        <p className="text-lg md:text-xl text-white/70 leading-relaxed mb-8">
-                            Members of the Real Estate Smart Investors Hub enjoy first-hand access to carefully selected estate opportunities and expert guidance on how to invest wisely for maximum returns.
-                        </p>
+                        <div className="mb-8">
+                            <span className="inline-block px-4 py-1.5 rounded-full bg-white/10 border border-white/20 text-[#F47920] text-sm font-bold uppercase tracking-wider mb-4">
+                                Powered by Esthington Group
+                            </span>
+                            <p className="text-lg md:text-xl text-white/70 leading-relaxed">
+                                Real estate wealth is built at the point of entry. The Real Estate Smart Investors Hub was created to give serious investors early access to verified estates, structured guidance, and a trusted community—before the general market hears about them.
+                            </p>
+                        </div>
+                        <div className="flex items-center gap-4 mb-8">
+                            <div className="h-12 w-1 bg-[#F47920] rounded-full"></div>
+                            <p className="text-white/80 font-medium italic">
+                                "Years of experience in land banking & estate development."
+                            </p>
+                        </div>
                         <div className="grid grid-cols-2 gap-6 pt-6">
                             <div className="p-4 rounded-xl bg-white/5 border border-white/10">
                                 <div className="text-3xl font-bold text-[#F47920] mb-1">10k+</div>

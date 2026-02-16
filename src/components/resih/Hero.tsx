@@ -31,19 +31,19 @@ export const Hero: React.FC<HeroProps> = ({ onJoinClick, onLearnMoreClick }) => 
                     className="max-w-3xl xl:w-1/2 relative z-[60] pointer-events-none"
                 >
                     <h1 className="text-5xl md:text-7xl font-serif font-bold leading-tight mb-6 pointer-events-auto">
-                        Invest Smart. <br />
-                        <span className={TEXT_ACCENT}>Buy Early.</span> <br />
-                        Build Wealth.
+                        Invest Early. <br />
+                        <span className={TEXT_ACCENT}>Buy Smart.</span> <br />
+                        Grow Wealth Together.
                     </h1>
                     <p className="text-xl md:text-2xl text-white/80 mb-10 leading-relaxed font-light pointer-events-auto">
-                        Are you an investor who understands that real estate rewards those who enter early? The Real Estate Smart Investors Hub is an exclusive community created to help smart investors make guided, timely, and profitable real estate investments.
+                        A private investor community that gets first access to pre-sale land opportunities, strategic guidance, and high-ROI real estate projects.
                     </p>
                     <div className="flex flex-col sm:flex-row gap-4 pointer-events-auto">
                         <button
                             onClick={onJoinClick}
                             className={`${ACCENT_COLOR} hover:bg-[#d96a1a] px-10 py-5 rounded-full text-lg font-bold transition-all hover:scale-105 shadow-[0_10px_30px_rgba(244,121,32,0.3)] flex items-center justify-center gap-2 group text-white`}
                         >
-                            Join the Hub Today
+                            Apply Now – Start Your Journey
                             <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                         </button>
                         <button

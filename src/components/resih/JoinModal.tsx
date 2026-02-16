@@ -12,19 +12,24 @@ interface JoinModalProps {
 // Configuration for our new questions
 const QUALIFYING_QUESTIONS = [
     {
+        id: 'location',
+        label: 'Location',
+        options: ['Nigeria', 'Diaspora']
+    },
+    {
+        id: 'profile',
+        label: 'Investor Profile',
+        options: ['Individual', 'Business', 'Group / Club']
+    },
+    {
         id: 'budget',
-        label: 'Investment Budget',
-        options: ['₦2M - ₦5M', '₦5M - ₦10M', '₦10M - ₦20M', '₦20M+']
+        label: 'Typical Budget Range',
+        options: ['₦5M - ₦10M', '₦10M - ₦25M', '₦25M+']
     },
     {
-        id: 'goal',
-        label: 'Primary Goal',
-        options: ['Investment Returns', 'Build to Live', 'Land Banking']
-    },
-    {
-        id: 'timeline',
-        label: 'Timeline',
-        options: ['Immediately', 'Within 3 Months', 'Just Browsing']
+        id: 'engagement',
+        label: 'How would you like to receive opportunities?',
+        options: ['WhatsApp', 'Email', 'Both']
     }
 ];
 
@@ -36,9 +41,10 @@ export const JoinModal: React.FC<JoinModalProps> = ({ isOpen, onClose }) => {
 
     // State to track selected chips (visual only, data is passed via hidden inputs)
     const [selections, setSelections] = useState({
+        location: '',
+        profile: '',
         budget: '',
-        goal: '',
-        timeline: ''
+        engagement: ''
     });
 
     const handleSelect = (field: string, value: string) => {
@@ -49,7 +55,7 @@ export const JoinModal: React.FC<JoinModalProps> = ({ isOpen, onClose }) => {
         e.preventDefault();
 
         // Basic validation for the new fields
-        if (!selections.budget || !selections.goal || !selections.timeline) {
+        if (!selections.location || !selections.profile || !selections.budget || !selections.engagement) {
             alert("Please select an option for all fields.");
             return;
         }
@@ -85,7 +91,7 @@ export const JoinModal: React.FC<JoinModalProps> = ({ isOpen, onClose }) => {
                 setTimeout(() => {
                     setIsSubmitted(false);
                     setSubmitStatus('idle');
-                    setSelections({ budget: '', goal: '', timeline: '' }); // Reset selections
+                    setSelections({ location: '', profile: '', budget: '', engagement: '' }); // Reset selections
                     onClose();
                     if (formRef.current) formRef.current.reset();
                 }, 3000);
@@ -125,9 +131,9 @@ export const JoinModal: React.FC<JoinModalProps> = ({ isOpen, onClose }) => {
                                 {!isSubmitted ? (
                                     <>
                                         <div className="mb-6">
-                                            <h2 className="text-3xl font-serif font-bold text-white mb-2">Join the Hub</h2>
+                                            <h2 className="text-3xl font-serif font-bold text-white mb-2">Apply to Join the Hub</h2>
                                             <p className="text-white/60 text-sm">
-                                                Tell us a bit about your investment goals so we can serve you better.
+                                                Membership is curated to ensure quality opportunities and focused investor engagement.
                                             </p>
                                         </div>
 
@@ -146,7 +152,7 @@ export const JoinModal: React.FC<JoinModalProps> = ({ isOpen, onClose }) => {
                                                         className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white focus:outline-none focus:border-[#F47920] transition-colors" />
                                                 </div>
                                                 <div className="space-y-1">
-                                                    <label className="text-xs font-bold uppercase tracking-wider text-white/40">Phone</label>
+                                                    <label className="text-xs font-bold uppercase tracking-wider text-white/40">Phone (WhatsApp)</label>
                                                     <input type="tel" name="phone" required placeholder="+234..."
                                                         className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white focus:outline-none focus:border-[#F47920] transition-colors" />
                                                 </div>
@@ -159,9 +165,10 @@ export const JoinModal: React.FC<JoinModalProps> = ({ isOpen, onClose }) => {
                                             </div>
 
                                             {/* Hidden inputs to store the chip values for FormData */}
+                                            <input type="hidden" name="location" value={selections.location} />
+                                            <input type="hidden" name="profile" value={selections.profile} />
                                             <input type="hidden" name="budget" value={selections.budget} />
-                                            <input type="hidden" name="goal" value={selections.goal} />
-                                            <input type="hidden" name="timeline" value={selections.timeline} />
+                                            <input type="hidden" name="engagement" value={selections.engagement} />
 
                                             {/* Sleek Selection Chips */}
                                             {QUALIFYING_QUESTIONS.map((q) => (
@@ -199,7 +206,7 @@ export const JoinModal: React.FC<JoinModalProps> = ({ isOpen, onClose }) => {
                                                     </span>
                                                 ) : (
                                                     <span className="flex items-center gap-2">
-                                                        Secure My Access <ChevronRight className="w-5 h-5" />
+                                                        Submit Application <ChevronRight className="w-5 h-5" />
                                                     </span>
                                                 )}
                                             </button>
