@@ -132,3 +132,80 @@ export const PROJECTS: Project[] = [
         ]
     }
 ];
+
+// --- Management Team Data ---
+
+export interface Executive {
+    id: string;
+    name: string;
+    role: string;
+    company: string;
+    image?: string;
+    contact?: {
+        phone?: string;
+        email?: string;
+        linkedin?: string;
+    };
+}
+
+export const CHAIRMAN: Executive = {
+    id: 'chairman',
+    name: 'Engr. Dr. Darlington Ugota',
+    role: 'Chairman',
+    company: 'Esthington Group',
+    image: '/chairman_img.png',
+    contact: {
+        phone: '+234 800 111 2222',
+        email: 'chairman@esthington.com'
+    }
+};
+
+export const EXECUTIVES_TOP: Executive[] = [
+    {
+        id: 'gmd1',
+        name: 'Dr. Emmanuel Osii',
+        role: 'GMD',
+        company: 'Double King Estate Ltd',
+        image: '/emmanuel_osii.png',
+        contact: { phone: '+234 801 000 0001', email: 'e.osii@esthington.com' }
+    },
+    {
+        id: 'gmd2',
+        name: 'Dr. Benard Uwa',
+        role: 'GMD',
+        company: 'NEFT Properties Ltd',
+        image: '/benard_uwa.png',
+        contact: { phone: '+234 802 000 0002', email: 'b.uwa@esthington.com' }
+    },
+    {
+        id: 'gmd3',
+        name: 'Dr. Samuel Ucha',
+        role: 'GMD',
+        company: 'Champions Properties Ltd',
+        contact: { phone: '+234 803 000 0003', email: 's.ucha@esthington.com' }
+    }
+];
+
+export const EXECUTIVES_BOTTOM: Executive[] = [
+    {
+        id: 'gmd4',
+        name: 'Engr. Oche',
+        role: 'GMD',
+        company: 'Double Grace Estate Ltd',
+        contact: { phone: '+234 804 000 0004', email: 'oche@esthington.com' }
+    },
+    {
+        id: 'gmd5',
+        name: 'Dr. Oscar Nwali',
+        role: 'GMD',
+        company: 'Top Rank Global Projects',
+        contact: { phone: '+234 805 000 0005', email: 'o.nwali@esthington.com' }
+    },
+    {
+        id: 'gmd6',
+        name: 'Dr. Uchenna',
+        role: 'GMD',
+        company: 'Esthington Links Ltd',
+        contact: { phone: '+234 806 000 0006', email: 'uchenna@esthington.com' }
+    }
+];
