@@ -189,9 +189,10 @@ export const EXECUTIVES_TOP: Executive[] = [
 export const EXECUTIVES_BOTTOM: Executive[] = [
     {
         id: 'gmd4',
-        name: 'Engr. Oche',
+        name: 'Engr. David Oche',
         role: 'GMD',
         company: 'Double Grace Estate Ltd',
+        image: '/oche.png',
         contact: { phone: '+234 804 000 0004', email: 'oche@esthington.com' }
     },
     {
