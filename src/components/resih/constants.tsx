@@ -182,6 +182,7 @@ export const EXECUTIVES_TOP: Executive[] = [
         name: 'Dr. Samuel Ucha',
         role: 'GMD',
         company: 'Champions Properties Ltd',
+        image: '/dr_sam.png',
         contact: { phone: '+234 803 000 0003', email: 's.ucha@esthington.com' }
     }
 ];
@@ -204,9 +205,10 @@ export const EXECUTIVES_BOTTOM: Executive[] = [
     },
     {
         id: 'gmd6',
-        name: 'Dr. Uchenna',
+        name: 'Dr. Uchenna Eze',
         role: 'GMD',
         company: 'Esthington Links Ltd',
+        image: '/uchenna.png',
         contact: { phone: '+234 806 000 0006', email: 'uchenna@esthington.com' }
     }
 ];
