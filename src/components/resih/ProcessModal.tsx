@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
-    X, ArrowRight, Building2, ChevronRight, Layout, Compass, HelpCircle, MessageCircle, CheckCircle2
+    X, ArrowRight, Building2, ChevronRight, Layout, Compass, HelpCircle, MessageCircle, CheckCircle2, Play
 } from 'lucide-react';
-import { ACCENT_COLOR, TEXT_ACCENT } from './constants';
+import { ACCENT_COLOR, TEXT_ACCENT, GOOGLE_SCRIPT_URL_NOTIFY } from './constants';
 
 interface ProcessModalProps {
     isOpen: boolean;
@@ -24,11 +24,10 @@ const ESTATES = [
         id: 'primelux',
         name: "Primelux Estate",
         location: "Apo",
-        images: [
-            "https://images.unsplash.com/photo-1613490493576-7fde63acd811?q=80&w=1600&auto=format&fit=crop",
-            "https://images.unsplash.com/photo-1613977257363-707ba9348227?q=80&w=1600&auto=format&fit=crop",
-            "https://images.unsplash.com/photo-1600596542815-2495db98dada?q=80&w=1600&auto=format&fit=crop",
-            "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?q=80&w=1600&auto=format&fit=crop"
+        media: [
+            { type: 'video', url: '/primelux_apo.mp4', thumbnail: '/primelux_1.jpeg' },
+            { type: 'image', url: '/primelux_1.jpeg' },
+            { type: 'image', url: '/primelux_2.jpeg' }
         ],
         desc: "Premium luxury living in the heart of Apo."
     },
@@ -36,11 +35,9 @@ const ESTATES = [
         id: 'sunview',
         name: "Sunview City",
         location: "Kuje",
-        images: [
-            "https://images.unsplash.com/photo-1518780664697-55e3ad937233?q=80&w=1600&auto=format&fit=crop",
-            "https://images.unsplash.com/photo-1598228723793-52759bba239c?q=80&w=1600&auto=format&fit=crop",
-            "https://images.unsplash.com/photo-1449844908441-8829872d2607?q=80&w=1600&auto=format&fit=crop",
-            "https://images.unsplash.com/photo-1564013799919-ab600027ffc6?q=80&w=1600&auto=format&fit=crop"
+        media: [
+            { type: 'video', url: '/sunviewkuje.mp4' },
+            { type: 'video', url: '/sunviewp1.mp4' }
         ],
         desc: "Eco-friendly urban development."
     },
@@ -48,36 +45,58 @@ const ESTATES = [
         id: 'peaceland',
         name: "Peaceland Estate",
         location: "Kurudu",
-        images: [
-            "https://images.unsplash.com/photo-1568605114967-8130f3a36994?q=80&w=1600&auto=format&fit=crop",
-            "https://images.unsplash.com/photo-1576941089067-2de3c901e126?q=80&w=1600&auto=format&fit=crop",
-            "https://images.unsplash.com/photo-1580587771525-78b9dba3b91d?q=80&w=1600&auto=format&fit=crop",
-            "https://images.unsplash.com/photo-1560518883-ce09059eeffa?q=80&w=1600&auto=format&fit=crop"
+        media: [
+            { type: 'video', url: '/peaceland.mp4' }
         ],
         desc: "Serene environment for family growth."
     },
     {
-        id: 'hillcrest',
-        name: "Hillcrest City",
-        location: "Jikwoyi",
-        images: [
-            "https://images.unsplash.com/photo-1628624747186-a941c476b7ef?q=80&w=1600&auto=format&fit=crop",
-            "https://images.unsplash.com/photo-1523217582562-09d0def993a6?q=80&w=1600&auto=format&fit=crop",
-            "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=1600&auto=format&fit=crop",
-            "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?q=80&w=1600&auto=format&fit=crop"
+        id: 'treasuregate',
+        name: "Treasure Gate Estate",
+        location: "Dei Dei",
+        media: [
+            { type: 'video', url: '/treasuregate.mp4' }
         ],
-        desc: "Elevated living with panoramic views."
+        desc: "A bustling retail hub hosting over 100 international and local brands."
     },
     {
         id: 'more',
         name: "More Estates",
         location: "Newly Launched",
-        images: [],
+        media: [],
         desc: "Future-ready investment opportunities."
     }
 ];
 
 
+
+// --- More Estates Data ---
+const MORE_ESTATES = [
+    {
+        name: "Royalux Estate",
+        desc: "Apo",
+        type: 'image',
+        url: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=800&auto=format&fit=crop"
+    },
+    {
+        name: "Champions City",
+        desc: "Kuje",
+        type: 'image',
+        url: "https://images.unsplash.com/photo-1480074568708-e7b720bb6fce?q=80&w=800&auto=format&fit=crop"
+    },
+    {
+        name: "Meridian City",
+        desc: "Pyakasa",
+        type: 'video',
+        url: "/meridancitypyakasa.mp4"
+    },
+    {
+        name: "Leisure View",
+        desc: "Lugbe",
+        type: 'image',
+        url: "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?q=80&w=800&auto=format&fit=crop"
+    }
+];
 
 const EstateCarousel = ({ activeEstate }: { activeEstate: typeof ESTATES[0] }) => {
     const [index, setIndex] = useState(0);
@@ -87,18 +106,17 @@ const EstateCarousel = ({ activeEstate }: { activeEstate: typeof ESTATES[0] }) =
         setIndex(0);
     }, [activeEstate.id]);
 
-    // Auto-slide logic (Optional: Remove this useEffect if you want manual only)
+    // Auto-slide logic
     React.useEffect(() => {
+        if (activeEstate.media.length <= 1) return; // Don't slide if only 1 item
+
         const timer = setInterval(() => {
-            setIndex((prev) => (prev + 1) % 4); // Assuming 4 images per estate
+            setIndex((prev) => (prev + 1) % activeEstate.media.length);
         }, 5000);
         return () => clearInterval(timer);
-    }, [activeEstate.id]);
+    }, [activeEstate.id, activeEstate.media.length]);
 
-    // Mock images if your data doesn't have 4 real URLs yet
-    const displayImages = activeEstate.images.length >= 4
-        ? activeEstate.images.slice(0, 4)
-        : [...activeEstate.images, ...Array(4 - activeEstate.images.length).fill("/api/placeholder/800/600")];
+    const currentMedia = activeEstate.media[index];
 
     return (
         <div className="relative w-full h-full rounded-2xl overflow-hidden bg-black/40 border border-white/5">
@@ -111,11 +129,22 @@ const EstateCarousel = ({ activeEstate }: { activeEstate: typeof ESTATES[0] }) =
                     transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }} // IOS-like spring
                     className="absolute inset-0 w-full h-full"
                 >
-                    <img
-                        src={displayImages[index]}
-                        alt={`${activeEstate.name} view ${index + 1}`}
-                        className="w-full h-full object-cover opacity-80"
-                    />
+                    {currentMedia?.type === 'video' ? (
+                        <video
+                            src={currentMedia.url}
+                            className="w-full h-full object-cover opacity-80"
+                            autoPlay
+                            muted
+                            loop
+                            playsInline
+                        />
+                    ) : (
+                        <img
+                            src={currentMedia?.url || "/api/placeholder/800/600"}
+                            alt={`${activeEstate.name} view ${index + 1}`}
+                            className="w-full h-full object-cover opacity-80"
+                        />
+                    )}
 
                     {/* Dark Gradient Overlay for Text Readability */}
                     <div className="absolute inset-0 bg-gradient-to-t from-[#0f0a2a] via-black/20 to-transparent" />
@@ -131,9 +160,11 @@ const EstateCarousel = ({ activeEstate }: { activeEstate: typeof ESTATES[0] }) =
                                 <span className="px-3 py-1 rounded bg-[#F47920] text-white text-[10px] font-bold uppercase tracking-wider shadow-lg">
                                     Fast Selling
                                 </span>
-                                <span className="px-3 py-1 rounded bg-white/10 backdrop-blur-md text-white/80 text-[10px] font-bold uppercase tracking-wider border border-white/10">
-                                    {index + 1} of 4
-                                </span>
+                                {activeEstate.media.length > 1 && (
+                                    <span className="px-3 py-1 rounded bg-white/10 backdrop-blur-md text-white/80 text-[10px] font-bold uppercase tracking-wider border border-white/10">
+                                        {index + 1} of {activeEstate.media.length}
+                                    </span>
+                                )}
                             </div>
 
                             <h3 className="text-3xl font-bold text-white mb-2 leading-tight">
@@ -141,8 +172,6 @@ const EstateCarousel = ({ activeEstate }: { activeEstate: typeof ESTATES[0] }) =
                             </h3>
 
                             <p className="text-white/80 text-sm md:text-base leading-relaxed max-w-lg backdrop-blur-sm">
-                                {/* If you have specific descriptions per image, use them here. 
-                                    Otherwise, using the main desc + a dynamic label */}
                                 {activeEstate.desc}
                             </p>
                         </motion.div>
@@ -151,22 +180,24 @@ const EstateCarousel = ({ activeEstate }: { activeEstate: typeof ESTATES[0] }) =
             </AnimatePresence>
 
             {/* Progress Bar Indicators */}
-            <div className="absolute bottom-0 left-0 right-0 p-6 md:p-8 flex gap-2 z-20">
-                {displayImages.map((_, i) => (
-                    <div key={i} className="h-1 flex-1 bg-white/10 rounded-full overflow-hidden">
-                        {i === index && (
-                            <motion.div
-                                layoutId="progress"
-                                initial={{ width: "0%" }}
-                                animate={{ width: "100%" }}
-                                transition={{ duration: 5, ease: "linear" }}
-                                className="h-full bg-[#F47920]"
-                            />
-                        )}
-                        {i < index && <div className="h-full w-full bg-[#F47920]/50" />}
-                    </div>
-                ))}
-            </div>
+            {activeEstate.media.length > 1 && (
+                <div className="absolute bottom-0 left-0 right-0 p-6 md:p-8 flex gap-2 z-20">
+                    {activeEstate.media.map((_, i) => (
+                        <div key={i} className="h-1 flex-1 bg-white/10 rounded-full overflow-hidden">
+                            {i === index && (
+                                <motion.div
+                                    layoutId="progress"
+                                    initial={{ width: "0%" }}
+                                    animate={{ width: "100%" }}
+                                    transition={{ duration: 5, ease: "linear" }}
+                                    className="h-full bg-[#F47920]"
+                                />
+                            )}
+                            {i < index && <div className="h-full w-full bg-[#F47920]/50" />}
+                        </div>
+                    ))}
+                </div>
+            )}
         </div>
     );
 };
@@ -174,6 +205,38 @@ const EstateCarousel = ({ activeEstate }: { activeEstate: typeof ESTATES[0] }) =
 export const ProcessModal: React.FC<ProcessModalProps> = ({ isOpen, onClose, onStartJourney }) => {
     const [activeSection, setActiveSection] = useState('hub');
     const [activeEstate, setActiveEstate] = useState(ESTATES[0]);
+    const [selectedMedia, setSelectedMedia] = useState<{ type: 'video' | 'image' | string, url: string } | null>(null);
+
+    // Notify Form State
+    const [notifyForm, setNotifyForm] = useState({ name: '', whatsapp: '' });
+    const [notifyStatus, setNotifyStatus] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle');
+
+    const handleNotifySubmit = async (e: React.FormEvent) => {
+        e.preventDefault();
+        if (!notifyForm.name.trim() || !notifyForm.whatsapp.trim()) {
+            alert("Please fill in all fields."); // Simple validation feedback
+            return;
+        }
+
+        setNotifyStatus('submitting');
+
+        try {
+            // Send data to Google Sheets
+            await fetch(GOOGLE_SCRIPT_URL_NOTIFY, {
+                method: 'POST',
+                mode: 'no-cors', // Important for Google-hosted scripts
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ ...notifyForm, timestamp: new Date().toISOString(), source: 'Notify Me Modal' })
+            });
+
+            setNotifyStatus('success');
+            setNotifyForm({ name: '', whatsapp: '' });
+        } catch (error) {
+            console.error("Submission error:", error);
+            setNotifyStatus('error');
+            setTimeout(() => setNotifyStatus('idle'), 3000);
+        }
+    };
 
     const CTA_BUTTON = (
         <button
@@ -371,25 +434,75 @@ export const ProcessModal: React.FC<ProcessModalProps> = ({ isOpen, onClose, onS
                                             </div>
 
                                             {/* MINI FORM: NOTIFY ME */}
-                                            <div className="mt-12 p-8 rounded-3xl bg-[#F47920]/10 border border-[#F47920]/30 text-center">
-                                                <h3 className="text-xl font-bold text-white mb-2">Not Ready to Apply Yet?</h3>
-                                                <p className="text-white/60 text-sm mb-6">Get notified when new opportunities come up.</p>
+                                            <div className="mt-12 p-8 rounded-3xl bg-[#F47920]/10 border border-[#F47920]/30 text-center relative overflow-hidden">
+                                                <AnimatePresence mode="wait">
+                                                    {notifyStatus === 'success' ? (
+                                                        <motion.div
+                                                            key="success"
+                                                            initial={{ opacity: 0, scale: 0.9 }}
+                                                            animate={{ opacity: 1, scale: 1 }}
+                                                            className="flex flex-col items-center justify-center py-8"
+                                                        >
+                                                            <div className="w-16 h-16 bg-green-500 rounded-full flex items-center justify-center mb-4 shadow-lg text-white">
+                                                                <CheckCircle2 className="w-8 h-8" />
+                                                            </div>
+                                                            <h3 className="text-2xl font-bold text-white mb-2">You're on the list!</h3>
+                                                            <p className="text-white/60">We'll keep you posted on new opportunities.</p>
+                                                            <button
+                                                                onClick={() => setNotifyStatus('idle')}
+                                                                className="mt-6 text-[#F47920] text-sm font-bold underline hover:text-white transition-colors"
+                                                            >
+                                                                Add another contact
+                                                            </button>
+                                                        </motion.div>
+                                                    ) : (
+                                                        <motion.div
+                                                            key="form"
+                                                            initial={{ opacity: 0 }}
+                                                            animate={{ opacity: 1 }}
+                                                            exit={{ opacity: 0 }}
+                                                        >
+                                                            <h3 className="text-xl font-bold text-white mb-2">Not Ready to Apply Yet?</h3>
+                                                            <p className="text-white/60 text-sm mb-6">Get notified when new opportunities come up.</p>
 
-                                                <form className="max-w-md mx-auto flex flex-col gap-4" onSubmit={(e) => { e.preventDefault(); alert("You have been added to the notification list."); }}>
-                                                    <input
-                                                        type="text"
-                                                        placeholder="Your Name"
-                                                        className="w-full px-4 py-3 rounded-xl bg-black/20 border border-white/10 text-white placeholder-white/30 focus:outline-none focus:border-[#F47920]"
-                                                    />
-                                                    <input
-                                                        type="tel"
-                                                        placeholder="WhatsApp Number"
-                                                        className="w-full px-4 py-3 rounded-xl bg-black/20 border border-white/10 text-white placeholder-white/30 focus:outline-none focus:border-[#F47920]"
-                                                    />
-                                                    <button type="submit" className="bg-[#F47920] hover:bg-[#d96a1a] text-white px-6 py-3 rounded-xl font-bold transition-colors">
-                                                        Get Updates
-                                                    </button>
-                                                </form>
+                                                            <form className="max-w-md mx-auto flex flex-col gap-4" onSubmit={handleNotifySubmit}>
+                                                                <input
+                                                                    type="text"
+                                                                    placeholder="Your Name"
+                                                                    value={notifyForm.name}
+                                                                    onChange={(e) => setNotifyForm({ ...notifyForm, name: e.target.value })}
+                                                                    className="w-full px-4 py-3 rounded-xl bg-black/20 border border-white/10 text-white placeholder-white/30 focus:outline-none focus:border-[#F47920] transition-colors"
+                                                                    required
+                                                                />
+                                                                <input
+                                                                    type="tel"
+                                                                    placeholder="WhatsApp Number"
+                                                                    value={notifyForm.whatsapp}
+                                                                    onChange={(e) => setNotifyForm({ ...notifyForm, whatsapp: e.target.value })}
+                                                                    className="w-full px-4 py-3 rounded-xl bg-black/20 border border-white/10 text-white placeholder-white/30 focus:outline-none focus:border-[#F47920] transition-colors"
+                                                                    required
+                                                                />
+                                                                <button
+                                                                    type="submit"
+                                                                    disabled={notifyStatus === 'submitting'}
+                                                                    className="bg-[#F47920] hover:bg-[#d96a1a] text-white px-6 py-3 rounded-xl font-bold transition-all active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                                                                >
+                                                                    {notifyStatus === 'submitting' ? (
+                                                                        <>
+                                                                            <span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                                                                            Sending...
+                                                                        </>
+                                                                    ) : (
+                                                                        "Get Updates"
+                                                                    )}
+                                                                </button>
+                                                                {notifyStatus === 'error' && (
+                                                                    <p className="text-red-400 text-xs mt-2">Something went wrong. Please try again.</p>
+                                                                )}
+                                                            </form>
+                                                        </motion.div>
+                                                    )}
+                                                </AnimatePresence>
                                             </div>
                                         </motion.div>
                                     )}
@@ -475,17 +588,39 @@ export const ProcessModal: React.FC<ProcessModalProps> = ({ isOpen, onClose, onS
                                                         {activeEstate.id === 'more' ? (
                                                             /* "More Estates" Grid View (Unchanged) */
                                                             <div className="grid grid-cols-2 gap-4 h-full overflow-y-auto pr-2">
-                                                                {[
-                                                                    { name: "Royalux Estate", desc: "Apo", img: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=800&auto=format&fit=crop" },
-                                                                    { name: "Champions City", desc: "Kuje", img: "https://images.unsplash.com/photo-1480074568708-e7b720bb6fce?q=80&w=800&auto=format&fit=crop" },
-                                                                    { name: "Meridian City", desc: "Pyakasa", img: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?q=80&w=800&auto=format&fit=crop" },
-                                                                    { name: "Leisure View", desc: "Lugbe", img: "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?q=80&w=800&auto=format&fit=crop" }
-                                                                ].map((item, i) => (
-                                                                    <div key={i} className="bg-white/5 rounded-xl border border-white/5 overflow-hidden hover:border-[#F47920]/50 transition-colors cursor-pointer flex flex-col group relative h-48">
-                                                                        <img src={item.img} alt={item.name} className="absolute inset-0 w-full h-full object-cover opacity-60 group-hover:opacity-100 transition-opacity duration-500" />
-                                                                        <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent" />
+                                                                {MORE_ESTATES.map((item, i) => (
+                                                                    <div
+                                                                        key={i}
+                                                                        onClick={() => setSelectedMedia({ type: item.type, url: item.url })}
+                                                                        className="bg-white/5 rounded-xl border border-white/5 overflow-hidden hover:border-[#F47920]/50 transition-colors cursor-pointer flex flex-col group relative h-48"
+                                                                    >
+                                                                        {item.type === 'video' ? (
+                                                                            <video
+                                                                                src={item.url}
+                                                                                className="absolute inset-0 w-full h-full object-cover opacity-60 group-hover:opacity-100 transition-opacity duration-500"
+                                                                                autoPlay
+                                                                                muted
+                                                                                loop
+                                                                                playsInline
+                                                                            />
+                                                                        ) : (
+                                                                            <img
+                                                                                src={item.url}
+                                                                                alt={item.name}
+                                                                                className="absolute inset-0 w-full h-full object-cover opacity-60 group-hover:opacity-100 transition-opacity duration-500"
+                                                                            />
+                                                                        )}
 
-                                                                        <div className="absolute bottom-0 left-0 right-0 p-4">
+                                                                        <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent pointer-events-none" />
+
+                                                                        {/* Play Icon for Video */}
+                                                                        {item.type === 'video' && (
+                                                                            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-10 h-10 bg-white/20 backdrop-blur-md rounded-full flex items-center justify-center pointer-events-none group-hover:scale-110 transition-transform">
+                                                                                <Play className="w-4 h-4 fill-white text-white" />
+                                                                            </div>
+                                                                        )}
+
+                                                                        <div className="absolute bottom-0 left-0 right-0 p-4 pointer-events-none">
                                                                             <h5 className="text-white font-bold text-sm mb-1">{item.name}</h5>
                                                                             <p className="text-white/60 text-[10px] uppercase tracking-wider">{item.desc}</p>
                                                                         </div>
@@ -519,6 +654,40 @@ export const ProcessModal: React.FC<ProcessModalProps> = ({ isOpen, onClose, onS
                         </motion.div>
                     </div>
                 </>
+            )}
+            {/* --- Lightbox Modal --- */}
+            {selectedMedia && (
+                <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    className="fixed inset-0 z-[100] bg-black/95 backdrop-blur-xl flex items-center justify-center p-4"
+                    onClick={() => setSelectedMedia(null)}
+                >
+                    <button
+                        onClick={() => setSelectedMedia(null)}
+                        className="absolute top-4 right-4 p-4 text-white/50 hover:text-white transition-colors z-50 bg-black/20 rounded-full"
+                    >
+                        <X className="w-8 h-8" />
+                    </button>
+
+                    <div className="relative w-full max-w-5xl aspect-video rounded-3xl overflow-hidden border border-white/10 shadow-2xl bg-black" onClick={(e) => e.stopPropagation()}>
+                        {selectedMedia.type === 'video' ? (
+                            <video
+                                src={selectedMedia.url}
+                                className="w-full h-full object-contain"
+                                controls
+                                autoPlay
+                            />
+                        ) : (
+                            <img
+                                src={selectedMedia.url}
+                                alt="Full view"
+                                className="w-full h-full object-contain"
+                            />
+                        )}
+                    </div>
+                </motion.div>
             )}
         </AnimatePresence>
     );

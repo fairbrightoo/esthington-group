@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, X } from 'lucide-react';
 import { NAV_LINKS, ACCENT_COLOR } from './constants';
@@ -25,25 +26,25 @@ export const Navbar: React.FC<NavbarProps> = ({ onJoinClick }) => {
             <div className="w-full max-w-[90%] xl:max-w-[1600px] mx-auto px-6 flex justify-between items-center">
                 {/* Logo */}
                 {/* Logo */}
-                <a href="/" className="flex items-center space-x-3 hover:opacity-90 transition-opacity">
+                <Link to="/" className="flex items-center space-x-3 hover:opacity-90 transition-opacity">
                     <div className="h-14 w-14 md:h-20 md:w-20 rounded-full overflow-hidden bg-white flex items-center justify-center">
                         <img src="/esthington-logo-svg.svg" alt="Esthington Logo" className="w-full h-full object-cover" />
                     </div>
                     <span className="text-xl md:text-2xl font-bold tracking-tight font-serif italic text-white">
                         Real Estate Smart Investors Hub
                     </span>
-                </a>
+                </Link>
 
                 {/* Desktop Nav */}
                 <div className="hidden md:flex space-x-8 items-center">
                     {NAV_LINKS.map((link) => (
-                        <a
+                        <Link
                             key={link.label}
-                            href={link.href}
+                            to={link.href}
                             className="text-sm font-medium text-white hover:text-[#F47920] transition-colors uppercase tracking-widest"
                         >
                             {link.label}
-                        </a>
+                        </Link>
                     ))}
                     <button
                         onClick={onJoinClick}
@@ -73,14 +74,14 @@ export const Navbar: React.FC<NavbarProps> = ({ onJoinClick }) => {
                     >
                         <div className="flex flex-col p-6 space-y-4">
                             {NAV_LINKS.map((link) => (
-                                <a
+                                <Link
                                     key={link.label}
-                                    href={link.href}
+                                    to={link.href}
                                     onClick={() => setIsMenuOpen(false)}
                                     className="text-lg font-medium text-white"
                                 >
                                     {link.label}
-                                </a>
+                                </Link>
                             ))}
                             <button
                                 onClick={() => {

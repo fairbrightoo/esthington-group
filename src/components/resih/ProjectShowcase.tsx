@@ -35,8 +35,8 @@ export const ProjectShowcase = () => {
                                 key={tab}
                                 onClick={() => setActiveTab(tab as any)}
                                 className={`px-6 py-2 rounded-full text-sm font-bold transition-all ${activeTab === tab
-                                        ? `${ACCENT_COLOR} text-white shadow-lg`
-                                        : 'text-white/60 hover:text-white hover:bg-white/5'
+                                    ? `${ACCENT_COLOR} text-white shadow-lg`
+                                    : 'text-white/60 hover:text-white hover:bg-white/5'
                                     }`}
                             >
                                 {tab}
@@ -58,21 +58,32 @@ export const ProjectShowcase = () => {
                             onClick={() => setSelectedProject(project)}
                             className="group relative h-[400px] rounded-2xl overflow-hidden cursor-pointer border border-white/10 bg-[#1a103f]"
                         >
-                            {/* Image Background */}
+                            {/* Image/Video Background */}
                             <div className="absolute inset-0">
-                                <img
-                                    src={project.media[0].thumbnail || project.media[0].url}
-                                    alt={project.title}
-                                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                                />
-                                <div className="absolute inset-0 bg-gradient-to-t from-[#0f0a2a] via-[#0f0a2a]/40 to-transparent opacity-80 group-hover:opacity-60 transition-opacity" />
+                                {project.media[0].type === 'video' && !project.media[0].thumbnail ? (
+                                    <video
+                                        src={project.media[0].url}
+                                        className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                                        muted
+                                        loop
+                                        autoPlay
+                                        playsInline
+                                    />
+                                ) : (
+                                    <img
+                                        src={project.media[0].thumbnail || project.media[0].url}
+                                        alt={project.title}
+                                        className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                                    />
+                                )}
+                                <div className="absolute inset-0 bg-gradient-to-t from-[#0f0a2a] via-[#0f0a2a]/40 to-transparent opacity-80 group-hover:opacity-60 transition-opacity z-10" />
                             </div>
 
                             {/* Status Badge */}
                             <div className="absolute top-4 left-4 z-20">
                                 <span className={`px-3 py-1 rounded-full text-xs font-bold backdrop-blur-md border border-white/10 ${project.status === 'Completed'
-                                        ? 'bg-green-500/20 text-green-400'
-                                        : 'bg-[#F47920]/20 text-[#F47920]'
+                                    ? 'bg-green-500/20 text-green-400'
+                                    : 'bg-[#F47920]/20 text-[#F47920]'
                                     }`}>
                                     {project.status}
                                 </span>

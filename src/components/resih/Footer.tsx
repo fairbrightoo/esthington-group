@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { Phone, MessageSquare } from 'lucide-react';
 import { NAV_LINKS, ACCENT_COLOR } from './constants';
 
@@ -9,9 +10,9 @@ export const Footer = () => {
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
                     <div className="col-span-1 lg:col-span-2">
                         <div className="flex items-center space-x-3 mb-6">
-                            <div className="h-16 w-16 rounded-full overflow-hidden bg-white flex items-center justify-center">
+                            <Link to="/" className="h-16 w-16 rounded-full overflow-hidden bg-white flex items-center justify-center">
                                 <img src="/esthington-logo-svg.svg" alt="Esthington Logo" className="w-full h-full object-cover" />
-                            </div>
+                            </Link>
                             <span className="text-2xl font-bold font-serif">Esthington Group</span>
                         </div>
                         <p className="text-white/50 max-w-sm mb-6 italic">
@@ -38,13 +39,13 @@ export const Footer = () => {
                         <h4 className="text-lg font-bold mb-6">Quick Links</h4>
                         <div className="space-y-4">
                             {NAV_LINKS.map((link) => (
-                                <a
+                                <Link
                                     key={link.label}
-                                    href={link.href}
+                                    to={link.href}
                                     className="block text-white/60 hover:text-[#F47920] transition-colors"
                                 >
                                     {link.label}
-                                </a>
+                                </Link>
                             ))}
                         </div>
                     </div>

@@ -27,6 +27,16 @@ const QUALIFYING_QUESTIONS = [
         options: ['₦5M - ₦10M', '₦10M - ₦25M', '₦25M+']
     },
     {
+        id: 'timeline',
+        label: 'Investment Timeline',
+        options: ['Immediately', 'Within 3 Months', 'Browsing']
+    },
+    {
+        id: 'goal',
+        label: 'Primary Investment Goal',
+        options: ['Capital Appreciation', 'Rental Income', 'Land Banking', 'Build to Live']
+    },
+    {
         id: 'engagement',
         label: 'How would you like to receive opportunities?',
         options: ['WhatsApp', 'Email', 'Both']
@@ -44,6 +54,8 @@ export const JoinModal: React.FC<JoinModalProps> = ({ isOpen, onClose }) => {
         location: '',
         profile: '',
         budget: '',
+        timeline: '',
+        goal: '',
         engagement: ''
     });
 
@@ -55,7 +67,7 @@ export const JoinModal: React.FC<JoinModalProps> = ({ isOpen, onClose }) => {
         e.preventDefault();
 
         // Basic validation for the new fields
-        if (!selections.location || !selections.profile || !selections.budget || !selections.engagement) {
+        if (!selections.location || !selections.profile || !selections.budget || !selections.timeline || !selections.goal || !selections.engagement) {
             alert("Please select an option for all fields.");
             return;
         }
@@ -91,7 +103,8 @@ export const JoinModal: React.FC<JoinModalProps> = ({ isOpen, onClose }) => {
                 setTimeout(() => {
                     setIsSubmitted(false);
                     setSubmitStatus('idle');
-                    setSelections({ location: '', profile: '', budget: '', engagement: '' }); // Reset selections
+                    setSubmitStatus('idle');
+                    setSelections({ location: '', profile: '', budget: '', timeline: '', goal: '', engagement: '' }); // Reset selections
                     onClose();
                     if (formRef.current) formRef.current.reset();
                 }, 3000);
@@ -168,6 +181,8 @@ export const JoinModal: React.FC<JoinModalProps> = ({ isOpen, onClose }) => {
                                             <input type="hidden" name="location" value={selections.location} />
                                             <input type="hidden" name="profile" value={selections.profile} />
                                             <input type="hidden" name="budget" value={selections.budget} />
+                                            <input type="hidden" name="timeline" value={selections.timeline} />
+                                            <input type="hidden" name="goal" value={selections.goal} />
                                             <input type="hidden" name="engagement" value={selections.engagement} />
 
                                             {/* Sleek Selection Chips */}

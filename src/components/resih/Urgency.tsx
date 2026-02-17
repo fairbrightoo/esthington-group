@@ -4,9 +4,10 @@ import { ACCENT_COLOR, GLASS_BG } from './constants';
 
 interface UrgencyProps {
     onJoinClick: () => void;
+    onLearnMoreClick: () => void;
 }
 
-export const Urgency: React.FC<UrgencyProps> = ({ onJoinClick }) => {
+export const Urgency: React.FC<UrgencyProps> = ({ onJoinClick, onLearnMoreClick }) => {
     return (
         <section id="urgency" className="py-32 relative text-white">
             <div className="absolute inset-0 bg-white/5" />
@@ -34,10 +35,12 @@ export const Urgency: React.FC<UrgencyProps> = ({ onJoinClick }) => {
                             Apply Now
                         </button>
                         <button
+                            onClick={onLearnMoreClick}
                             className="px-12 py-6 rounded-full text-xl font-bold border border-white/30 hover:bg-white/10 transition-all backdrop-blur-sm text-white"
                         >
                             Learn More
                         </button>
+
                     </div>
                 </motion.div>
             </div>

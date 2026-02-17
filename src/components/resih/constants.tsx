@@ -6,12 +6,15 @@ export const ACCENT_COLOR = 'bg-[#F47920]';
 export const TEXT_ACCENT = 'text-[#F47920]';
 export const GLASS_BG = 'bg-white/10 backdrop-blur-md border border-white/20';
 
+// Replace this with the specific Google Script URL for the "Notify Me" form
+export const GOOGLE_SCRIPT_URL_NOTIFY = 'https://script.google.com/macros/s/AKfycbxGxi3s6-lZ8dONxkRVbRzrmxC_E7bZBTrZYCb8ha1-1X50g_3V1BgwvcRVdZoZlCjl/exec';
+
 export const NAV_LINKS = [
-    { label: 'About', href: '#about' },
-    { label: 'Benefits', href: '#benefits' },
-    { label: 'Portfolio', href: '#projects' },
-    { label: "Who It's For", href: '#audience' },
-    { label: 'Why Early?', href: '#urgency' }
+    { label: 'About', href: '/about' },
+    { label: 'Benefits', href: '/benefits' },
+    { label: 'Portfolio', href: '/projects' },
+    { label: "Who It's For", href: '/audience' },
+    { label: 'Why Early?', href: '/urgency' }
 ];
 
 export const BENEFITS = [
@@ -80,8 +83,9 @@ export const PROJECTS: Project[] = [
         status: 'Completed',
         description: 'A premium residential complex featuring 20 luxury apartments with state-of-the-art amenities. Delivered on time with 140% ROI for early investors.',
         media: [
-            { type: 'image', url: 'https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&q=80&w=1000' },
-            { type: 'image', url: 'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&q=80&w=1000' }
+            { type: 'video', url: '/primelux_apo.mp4', thumbnail: '/primelux_1.jpeg' },
+            { type: 'image', url: '/primelux_1.jpeg' },
+            { type: 'image', url: '/primelux_2.jpeg' }
         ],
         stats: [
             { label: 'ROI', value: '140%' },
@@ -95,8 +99,8 @@ export const PROJECTS: Project[] = [
         status: 'Ongoing',
         description: 'Our flagship commercial development. A 35-storey masterpiece redefining the skyline. Currently in the foundation phase, offering pre-sale equity opportunities.',
         media: [
-            { type: 'video', url: 'https://assets.mixkit.co/videos/preview/mixkit-aerial-view-of-city-traffic-at-night-11-large.mp4', thumbnail: 'https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?auto=format&fit=crop&q=80&w=1000' },
-            { type: 'image', url: 'https://images.unsplash.com/photo-1486325212027-8081e485255e?auto=format&fit=crop&q=80&w=1000' }
+            { type: 'video', url: '/sunviewkuje.mp4' },
+            { type: 'video', url: '/sunviewp1.mp4' }
         ],
         stats: [
             { label: 'Completion', value: '2027' },
@@ -110,7 +114,7 @@ export const PROJECTS: Project[] = [
         status: 'Ongoing',
         description: 'Sustainable living meets modern luxury. A solar-powered gated community designed for the eco-conscious family.',
         media: [
-            { type: 'image', url: 'https://images.unsplash.com/photo-1448630360428-65456885c650?auto=format&fit=crop&q=80&w=1000' }
+            { type: 'video', url: '/peaceland.mp4' }
         ],
         stats: [
             { label: 'Green Area', value: '40%' },
@@ -119,12 +123,12 @@ export const PROJECTS: Project[] = [
     },
     {
         id: 'p4',
-        title: 'Sapphire Mall',
-        location: 'Gwarinpa, Abuja',
-        status: 'Completed',
+        title: 'Treasure Gate Estate',
+        location: 'Dei Dei, Abuja',
+        status: 'Ongoing',
         description: 'A bustling retail hub hosting over 100 international and local brands. A cornerstone of commercial success in the district.',
         media: [
-            { type: 'image', url: 'https://images.unsplash.com/photo-1519567241046-7f570eee3d9f?auto=format&fit=crop&q=80&w=1000' }
+            { type: 'video', url: '/treasuregate.mp4' }
         ],
         stats: [
             { label: 'Occupancy', value: '100%' },

@@ -1,5 +1,6 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useEffect } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
+import { useLocation } from 'react-router-dom';
 import { Container, Theme } from './settings/types';
 import { RESIHLandingPage } from './components/generated/RESIHLandingPage';
 import { Preloader } from './components/Preloader';
@@ -7,7 +8,33 @@ import { Preloader } from './components/Preloader';
 
 let theme: Theme = 'dark';
 // only use 'centered' container for standalone components, never for full page apps or websites.
+// only use 'centered' container for standalone components, never for full page apps or websites.
 let container: Container = 'none';
+
+// Scroll handling component
+const ScrollToSection = () => {
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    // Extract section ID from pathname (e.g., "/about" -> "about")
+    const sectionId = pathname.replace('/', '');
+
+    if (!sectionId) {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      return;
+    }
+
+    const element = document.getElementById(sectionId);
+    if (element) {
+      // Add a small delay to ensure DOM is ready if coming from a different route
+      setTimeout(() => {
+        element.scrollIntoView({ behavior: 'smooth' });
+      }, 100);
+    }
+  }, [pathname]);
+
+  return null;
+};
 
 function App() {
   function setTheme(theme: Theme) {
@@ -33,6 +60,7 @@ function App() {
 
   return (
     <>
+      <ScrollToSection />
       <AnimatePresence mode="wait">
         {isLoading && (
           <motion.div

@@ -33,7 +33,7 @@ export const RESIHLandingPage = () => {
         <ProjectShowcase />
       </div>
       <Audience />
-      <Urgency onJoinClick={openJoinModal} />
+      <Urgency onJoinClick={openJoinModal} onLearnMoreClick={openProcessModal} />
       <Footer />
 
       <JoinModal isOpen={isJoinModalOpen} onClose={closeJoinModal} />
