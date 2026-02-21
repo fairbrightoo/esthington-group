@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Phone, Mail, Linkedin, User } from 'lucide-react';
+import { MessageCircle, Mail, Linkedin, User } from 'lucide-react';
 import { Executive } from './constants';
 import { ACCENT_COLOR, GLASS_BG } from './constants';
 
@@ -11,6 +11,18 @@ interface ManagementCardProps {
 
 export const ManagementCard: React.FC<ManagementCardProps> = ({ executive, isCenter = false }) => {
     const [isFlipped, setIsFlipped] = useState(false);
+
+    // Format phone number for WhatsApp URL (remove leading 0 and add 234)
+    const formatWhatsAppNumber = (phone: string | undefined) => {
+        if (!phone) return '#';
+        // Remove spaces, hyphens, plus signs
+        const cleaned = phone.replace(/[\s\-+]/g, '');
+        // If it starts with 0, replace with 234
+        if (cleaned.startsWith('0')) {
+            return `https://wa.me/234${cleaned.substring(1)}`;
+        }
+        return `https://wa.me/${cleaned}`;
+    };
 
     return (
         <div
@@ -63,8 +75,8 @@ export const ManagementCard: React.FC<ManagementCardProps> = ({ executive, isCen
                     <div className="w-8 h-1 bg-[#F47920] rounded-full mb-6" />
 
                     <div className="space-y-4 w-full">
-                        <a href={`tel:${executive.contact?.phone || '#'}`} className="flex items-center gap-3 text-white/80 hover:text-[#F47920] transition-colors p-2 rounded-lg hover:bg-white/5">
-                            <Phone className="w-4 h-4 text-[#F47920]" />
+                        <a href={formatWhatsAppNumber(executive.contact?.phone)} className="flex items-center gap-3 text-white/80 hover:text-[#F47920] transition-colors p-2 rounded-lg hover:bg-white/5">
+                            <MessageCircle className="w-4 h-4 text-[#F47920]" />
                             <span className="text-sm">{executive.contact?.phone || '+234 ...'}</span>
                         </a>
                         <a href={`mailto:${executive.contact?.email || '#'}`} className="flex items-center gap-3 text-white/80 hover:text-[#F47920] transition-colors p-2 rounded-lg hover:bg-white/5">

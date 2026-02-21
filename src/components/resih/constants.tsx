@@ -137,6 +137,42 @@ export const PROJECTS: Project[] = [
     }
 ];
 
+// --- Hot Selling Estates ---
+export const HOT_SELLING_ESTATES: Project[] = [
+    {
+        id: 'hs1',
+        title: 'Access Gate Estate',
+        location: 'Apo Wassa',
+        status: 'Ongoing',
+        description: 'A thriving community designed for modern living with state-of-the-art facilities.',
+        media: [{ type: 'video', url: '/accessgateestate.mp4' }]
+    },
+    {
+        id: 'hs2',
+        title: 'Primelux Exclusive',
+        location: 'Apo Waru',
+        status: 'Ongoing',
+        description: 'Experience luxury and tranquility in our premium exclusive residential plots.',
+        media: [{ type: 'video', url: '/primeluxexclusive.mp4' }]
+    },
+    {
+        id: 'hs3',
+        title: 'Estora Residence',
+        location: 'Maitama 2',
+        status: 'Ongoing',
+        description: 'Premium housing units set in the heart of Maitama 2, combining elegance and accessibility.',
+        media: [{ type: 'video', url: '/maitama2.mp4' }]
+    },
+    {
+        id: 'hs4',
+        title: 'Treasure Gate',
+        location: 'Dei Dei',
+        status: 'Ongoing',
+        description: 'Strategic commercial and residential spaces with high ROI potential.',
+        media: [{ type: 'video', url: '/treasure.mp4' }]
+    }
+];
+
 // --- Management Team Data ---
 
 export interface Executive {
@@ -159,7 +195,7 @@ export const CHAIRMAN: Executive = {
     company: 'Esthington Group',
     image: '/chairman_img.png',
     contact: {
-        phone: '+234 800 111 2222',
+        phone: '07034795677',
         email: 'chairman@esthington.com'
     }
 };
@@ -171,7 +207,7 @@ export const EXECUTIVES_TOP: Executive[] = [
         role: 'GMD',
         company: 'Double King Estate Ltd',
         image: '/emmanuel_osii.png',
-        contact: { phone: '+234 801 000 0001', email: 'e.osii@esthington.com' }
+        contact: { phone: '07039795420', email: 'e.osii@esthington.com' }
     },
     {
         id: 'gmd2',
@@ -179,7 +215,7 @@ export const EXECUTIVES_TOP: Executive[] = [
         role: 'GMD',
         company: 'NEFT Properties Ltd',
         image: '/benard_uwa.png',
-        contact: { phone: '+234 802 000 0002', email: 'b.uwa@esthington.com' }
+        contact: { phone: '07045466777', email: 'b.uwa@esthington.com' }
     },
     {
         id: 'gmd3',
@@ -187,7 +223,7 @@ export const EXECUTIVES_TOP: Executive[] = [
         role: 'GMD',
         company: 'Champions Properties Ltd',
         image: '/dr_sam.png',
-        contact: { phone: '+234 803 000 0003', email: 's.ucha@esthington.com' }
+        contact: { phone: '08066376362', email: 's.ucha@esthington.com' }
     }
 ];
 
@@ -195,24 +231,25 @@ export const EXECUTIVES_BOTTOM: Executive[] = [
     {
         id: 'gmd4',
         name: 'Engr. David Oche',
-        role: 'GMD',
+        role: 'MD',
         company: 'Double Grace Estate Ltd',
         image: '/oche.png',
-        contact: { phone: '+234 804 000 0004', email: 'oche@esthington.com' }
+        contact: { phone: '07061923254', email: 'oche@esthington.com' }
     },
     {
         id: 'gmd5',
         name: 'Dr. Oscar Nwali',
-        role: 'GMD',
+        role: 'MD',
         company: 'Top Rank Global Projects',
-        contact: { phone: '+234 805 000 0005', email: 'o.nwali@esthington.com' }
+        image: '/oscar.png',
+        contact: { phone: '07011620063', email: 'o.nwali@esthington.com' }
     },
     {
         id: 'gmd6',
         name: 'Dr. Uchenna Eze',
-        role: 'GMD',
+        role: 'MD',
         company: 'Esthington Links Ltd',
         image: '/uchenna.png',
-        contact: { phone: '+234 806 000 0006', email: 'uchenna@esthington.com' }
+        contact: { phone: '09054090266', email: 'uchenna@esthington.com' }
     }
 ];
