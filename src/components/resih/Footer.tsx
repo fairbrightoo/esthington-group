@@ -24,11 +24,11 @@ export const Footer = () => {
                     <div>
                         <h4 className="text-lg font-bold mb-6">Connect With Us</h4>
                         <div className="space-y-4">
-                            <a href="tel:07034795677" className="flex items-center gap-3 text-white/60 hover:text-[#F47920] transition-colors">
+                            <a href="tel:09135637350" className="flex items-center gap-3 text-white/60 hover:text-[#F47920] transition-colors">
                                 <Phone className="w-5 h-5" />
-                                <span>07034795677</span>
+                                <span>09135637350</span>
                             </a>
-                            <a href="https://wa.me/2347034795677" className="flex items-center gap-3 text-white/60 hover:text-[#F47920] transition-colors">
+                            <a href="https://wa.me/2349135637350" className="flex items-center gap-3 text-white/60 hover:text-[#F47920] transition-colors">
                                 <MessageSquare className="w-5 h-5" />
                                 <span>WhatsApp Chat</span>
                             </a>
